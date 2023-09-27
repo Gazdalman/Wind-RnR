@@ -1,5 +1,5 @@
 <!--!!START SILENT -->
-# AirBnB Clone
+# Wind RNR
 <!--!!END -->
 <!--!!ADD -->
 <!-- # `<name of application here>` -->
