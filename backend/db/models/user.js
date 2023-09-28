@@ -41,9 +41,13 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     }, {
-      sequelize,
-      modelName: 'User'
+    sequelize,
+    modelName: 'User',
+    defaultScope: {
+      attributes:
+        ['id', 'username']
     }
+  }
   );
   return User;
 };
