@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const { User } = require('../../db/models')
 
-router.post('/test', (req, res) => {
-  res.json({ requestBody: req.body });
-});
+const { setTokenCookie, restoreUser } = require('../../utils/auth.js');
+
+router.use(restoreUser);
 
 router.get('/csrf/restore', (req,res) => {
   const token = req.csrfToken();
