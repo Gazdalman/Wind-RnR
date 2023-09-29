@@ -24,16 +24,20 @@ module.exports = {
     {
       username: 'FutRWizKing',
       email: 'asta@user.io',
+      firstName: 'Asta',
       hashedPassword: bcrypt.hashSync('password'),
     },
     {
       username: 'theRLFutRWK',
       email: 'yuno@user.io',
+      firstName: 'Yuno',
       hashedPassword: bcrypt.hashSync('password2'),
     },
     {
       username: 'ShadwCap',
       email: 'yami@user.io',
+      firstName: 'Yami',
+      lastName: 'Sukehiro',
       hashedPassword: bcrypt.hashSync('password3'),
     },
    ], { validate: true });
