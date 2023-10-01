@@ -55,4 +55,12 @@ router.post('/', validateSignup,  async (req, res) => {
   });
 })
 
+router.get('/test', async (req, res) => {
+  const user = await User.findByPk(1, {
+    include: [Review, Spot]
+  });
+
+  res.json(user)
+});
+
 module.exports = router;
