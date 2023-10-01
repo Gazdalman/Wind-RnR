@@ -55,11 +55,13 @@ router.post('/', validateLogin, async (req, res, next) => {
   })
 });
 
+// Log Out User
 router.delete('/', (_req, res) => {
   res.clearCookie('token');
   return res.json({ message: 'success' });
 });
 
+// Restore User session
 router.get('/', (req, res) => {
   const { user } = req;
   if (user) {
@@ -73,7 +75,7 @@ router.get('/', (req, res) => {
     return res.json({
       user: safeUser
     });
-  } else return res, json({ user: null });
+  } else return res.json({ user: null });
 
 });
 
