@@ -18,8 +18,7 @@ router.get('/', async (req, res, next) => {
       include: [
       [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
     ]
-  },
-    group: ['Spot.id'] // Group by Spot.id to get the average rating for each spot
+  }
   });
 
   const spotsJSON = spots.map(spot => spot.toJSON());
