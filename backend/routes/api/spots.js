@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { Spot, SpotImage, Review } = require('../../db/models');
 const sequelize = require('sequelize')
 
+
 router.get('/', async (req, res, next) => {
   const spots = await Spot.findAll({
     include: [
@@ -16,9 +17,9 @@ router.get('/', async (req, res, next) => {
     ],
     attributes: {
       include: [
-      [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
-    ]
-  },
+        [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
+      ]
+    },
     group: ['Spot.id'] // Group by Spot.id to get the average rating for each spot
   });
 
@@ -35,5 +36,35 @@ router.get('/', async (req, res, next) => {
     Spots: spotsJSON
   });
 })
+
+router.get('/current', async (req, res) => {
+  const { user } = req;
+
+  const userSpots = await user.getSpots({
+    include: [
+      {
+        model: Review,
+        attributes: []
+      },
+    ],
+    attributes: {
+      include: [
+        [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
+      ]
+    }
+  });
+  const images = await SpotImage.findAll({
+    where: {
+      spotId: 1
+    }
+  });
+
+  
+  res.json({});
+});
+
+// router.post('/', async(req,res) => {
+
+// })
 
 module.exports = router
