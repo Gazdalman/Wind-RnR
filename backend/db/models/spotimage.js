@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'SpotImage',
     defaultScope: {
       attributes: {
-        exclude: ['updatedAt', 'createdAt']
+        exclude: ["createdAt", "updatedAt", "spotId"]
       }
     }
   });
