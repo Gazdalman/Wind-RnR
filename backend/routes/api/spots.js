@@ -6,10 +6,6 @@ router.get('/', async (req, res, next) => {
   const spots = await Spot.findAll({
     include: [
       {
-        model: SpotImage,
-        attributes: ['url']
-      },
-      {
         model: Review,
         attributes: []
       }
@@ -18,7 +14,7 @@ router.get('/', async (req, res, next) => {
       include: [
       [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
     ]
-  }
+  } // Group by Spot.id to get the average rating for each spot
   });
 
   const spotsJSON = spots.map(spot => spot.toJSON());
@@ -26,8 +22,12 @@ router.get('/', async (req, res, next) => {
   for (let i = 0; i < spotsJSON.length; i++) {
     const spot = spotsJSON[i];
 
-    spot.previewImage = spot.SpotImages[0].url
-    delete spot.SpotImages
+    spot.previewImage = await SpotImage.findAll({
+      where: {
+        spotId: spot.id,
+        preview: true
+      }
+    })
   }
 
   res.json({
