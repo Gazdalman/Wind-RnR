@@ -3,21 +3,7 @@ const { Spot, SpotImage, Review } = require('../../db/models');
 const sequelize = require('sequelize')
 
 router.get('/', async (req, res, next) => {
-  const spots = await Spot.findAll(
-  //   {
-  //   include: [
-  //     {
-  //       model: Review,
-  //       attributes: []
-  //     }
-  //   ],
-  //   attributes: {
-  //     include: [
-  //     [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
-  //   ]
-  // }
-  // }
-  );
+  const spots = await Spot.findAll();
 
   const spotsJSON = spots.map(spot => spot.toJSON());
 
@@ -26,6 +12,20 @@ router.get('/', async (req, res, next) => {
 
     const { id } = spot
 
+    const total = await Review.sum('stars', {
+      where: {
+        spotId: id
+      }
+    });
+
+    const ratings = await Review.count({
+      where: {
+        spotId: id
+      }
+    });
+
+
+    spot.avgRating = total / ratings
     const preview = await SpotImage.findAll({
       where: {
         spotId: id,
