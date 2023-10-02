@@ -22,11 +22,11 @@ router.get('/', async (req, res, next) => {
   for (let i = 0; i < spotsJSON.length; i++) {
     const spot = spotsJSON[i];
 
-    const spotId = spot.id
+    const { id } = spot
 
     const preview = await SpotImage.findAll({
       where: {
-        spotId: spotId,
+        spotId: id,
         preview: true
       },
       attributes: ['url']
