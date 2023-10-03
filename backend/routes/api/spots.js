@@ -1,45 +1,50 @@
 const router = require('express').Router();
 const { User, Spot, SpotImage, Review } = require('../../db/models');
 const sequelize = require('sequelize');
-const {requireAuth} = require('../../utils/auth')
+const { requireAuth } = require('../../utils/auth')
 
+// Get all spots from the Server
 router.get('/', async (req, res, next) => {
-    const spots = await Spot.findAll({
-        include: [
-            {
-                model: SpotImage,
-                attributes: ['url']
-            }
-        ]
-    });
+  const spots = await Spot.findAll({
+    include: [
+      {
+        model: SpotImage,
+        attributes: ['url']
+      }
+    ]
+  });
 
 
-    const spotsJSON = spots.map(spot => spot.toJSON());
+  const spotsJSON = spots.map(spot => spot.toJSON());
 
-    for (let i = 0; i < spotsJSON.length; i++) {
-        const spot = spotsJSON[i];
+  for (let i = 0; i < spotsJSON.length; i++) {
+    const spot = spotsJSON[i];
 
-        const reviews = await Review.findAll({
-            where: {
-                spotId: spot.id
-            }
-        })
+    const reviews = await Review.findAll({
+      where: {
+        spotId: spot.id
+      }
+    })
 
-        const avg = await Review.sum('stars', {
-            where: {
-                spotId: spot.id
-            }
-        })
+    const avg = await Review.sum('stars', {
+      where: {
+        spotId: spot.id
+      }
+    })
 
-        spot.avgRating = avg / reviews.length;
-        spot.previewImage = spot.SpotImages[0]
-        delete spot.SpotImages
+    spot.avgRating = avg / reviews.length;
+    if (spot.SpotImages.length > 0) {
+      spot.previewImage = spot.SpotImages[0].url
     }
 
-    res.json({
-        Spots: spotsJSON
-    });
-})
+    delete spot.SpotImages
+  }
+
+  res.json({
+    Spots: spotsJSON
+  });
+});
+
 // Get all spots owned by the Current
 router.get('/current', requireAuth, async (req, res) => {
 
@@ -83,7 +88,7 @@ router.get('/current', requireAuth, async (req, res) => {
   res.json(
     spotsJSON
   );
-})
+});
 
 // Get a spot based on spotId
 router.get('/:spotId', async (req, res) => {
@@ -92,10 +97,10 @@ router.get('/:spotId', async (req, res) => {
   const spot = await Spot.findByPk(spotId);
 
   if (!spot) {
-   res.status(404);
-   res.json({
-    message: "Spot not found."
-   })
+    res.status(404);
+    res.json({
+      message: "Spot not found."
+    })
   }
 
   const spotObj = spot.toJSON()
@@ -125,8 +130,39 @@ router.get('/:spotId', async (req, res) => {
   res.json(
     spotObj
   );
-})
+});
 
+// Add an image to an owned spot based on id
+router.post('/:spotId/images', requireAuth, async (req, res) => {
+  const { user } = req;
+  const { spotId } = req.params;
+  const { url, preview } = req.body
+
+  const spot = await Spot.findByPk(spotId);
+
+  if (!spot)
+
+    if (user.id !== spot.ownerId) {
+      res.status(403);
+      return res.json({
+        message: "You are not authorized my friend!"
+      })
+    };
+
+  const image = await spot.createSpotImage({
+    url,
+    preview
+  });
+
+  const imgPreview = {
+    id: image.id,
+    url: image.url,
+    preview: image.preview
+  }
+  res.json(imgPreview);
+});
+
+// Create a Spot
 router.post('/', requireAuth, async (req, res) => {
   const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
@@ -147,5 +183,68 @@ router.post('/', requireAuth, async (req, res) => {
   });
 
   res.json(newSpot)
-})
+});
+
+// Edit a spot
+router.put('/:spotId', requireAuth, async (req, res) => {
+  const { user } = req;
+  const { spotId } = req.params;
+  const { address, city, state, country, lat, lng, name, description, price } = req.body;
+
+  const spot = await Spot.findByPk(spotId);
+
+  if (!spot) {
+    res.status(404);
+    return res.json({
+      message: "Spot not found."
+    })
+  }
+
+  if (user.id !== spot.ownerId) {
+    res.status(403);
+    return res.json({
+      message: "You are not authorized to make changes to this spot"
+    })
+  };
+
+  const attributes = { address, city, state, country, lat, lng, name, description, price };
+
+  for (const attr in attributes) {
+    spot[attr] = attributes[attr]
+  };
+
+  await spot.save();
+
+  res.json(spot);
+});
+
+// Delete a Spot
+router.delete('/:spotId', requireAuth, async(req,res) => {
+  const { user } = req;
+  const { spotId } = req.params;
+
+  const spot = await Spot.findByPk(spotId);
+
+  if (!spot) {
+    res.status(404);
+    return res.json({
+      message: "Spot not found."
+    })
+  }
+
+  if (user.id !== spot.ownerId) {
+    res.status(403);
+    return res.json({
+      message: "You are not authorized to make changes to this spot"
+    })
+  };
+
+  await spot.destroy();
+
+  res.json({
+    message: "Spot has successfully been deleted."
+  })
+});
+
+
 module.exports = router
