@@ -19,7 +19,7 @@ module.exports = {
       fields: ['lat', 'lng'],
       type: 'UNIQUE',
       name: 'idx_spots_lat_lng'
-    })
+    }, options)
   },
 
   async down (queryInterface, Sequelize) {
@@ -29,6 +29,7 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.removeIndex('Spots', 'idx_spots_lat_lng')
+    options.tableName = "Spots"
+    await queryInterface.removeIndex(options, 'idx_spots_lat_lng')
   }
 };
