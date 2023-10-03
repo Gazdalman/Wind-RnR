@@ -58,7 +58,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await Spot.bulkCreate(demoSpots)
+    await Spot.bulkCreate(demoSpots, { validate: true })
   },
 
   async down (queryInterface, Sequelize) {

@@ -45,7 +45,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await Review.bulkCreate(demoReviews);
+   await Review.bulkCreate(demoReviews, { validate: true });
   },
 
   async down (queryInterface, Sequelize) {
@@ -57,8 +57,6 @@ module.exports = {
      */
     options.tableName = 'Reviews';
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete(options, {
-      userId: { [Op.in]: [1, 2, 3] }
-    }, {});
+    return queryInterface.bulkDelete(options, {});
   }
 };

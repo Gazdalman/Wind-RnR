@@ -21,7 +21,13 @@ module.exports = (sequelize, DataTypes) => {
         models.Spot, {
           foreignKey: 'spotId'
         }
-      )
+      );
+
+      Review.hasMany(
+        models.ReviewImage, {
+          foreignKey: 'reviewId'
+        }
+      );
     }
   }
   Review.init({
@@ -35,7 +41,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     review: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+      }
     },
     stars: {
       type: DataTypes.INTEGER,

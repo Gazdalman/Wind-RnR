@@ -35,9 +35,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     startDate: {
       type: DataTypes.DATE,
-      validate: {
-        isAfter: Date.now().toLocaleString()
-      }
     },
     endDate: {
       type: DataTypes.DATE,
