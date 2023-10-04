@@ -267,7 +267,7 @@ router.put('/:spotId', requireAuth, validators.validateSpot, async (req, res) =>
   const { user } = req;
   const { spotId } = req.params;
   const { address, city, state, country, lat, lng, name, description, price } = req.body;
-
+  const updatedAt = Date.now()
   const spot = await Spot.findByPk(spotId);
 
   if (!spot) {
@@ -284,7 +284,7 @@ router.put('/:spotId', requireAuth, validators.validateSpot, async (req, res) =>
     })
   };
 
-  const attributes = { address, city, state, country, lat, lng, name, description, price };
+  const attributes = { address, city, state, country, lat, lng, name, description, price, updatedAt };
 
   for (const attr in attributes) {
     spot[attr] = attributes[attr]
