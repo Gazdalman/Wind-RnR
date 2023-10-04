@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, ValidationError, Op
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Booking extends Model {
@@ -35,11 +35,24 @@ module.exports = (sequelize, DataTypes) => {
     },
     startDate: {
       type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        checkStart(value) {
+          if (new Date(value).getTime() < new Date().getTime()) {
+            throw new Error(`Start dat should be on or after ${new Date().toLocaleDateString()}`)
+          }
+        }
+      }
     },
     endDate: {
       type: DataTypes.DATE,
+      allowNull: false,
       validate: {
-        isAfter: this.startDate
+        checkEnd(value) {
+          if (value <= this.startDate) {
+            throw new Error('Stay must be at least one day')
+          }
+        }
       }
     }
   }, {

@@ -1,9 +1,14 @@
 const router = require('express').Router();
-const { check } = require('express-validator');
 const { User, Spot, SpotImage, Review, ReviewImage } = require('../../db/models');
 const sequelize = require('sequelize');
+const { userOwns, spotExists } = require('../../utils/errors')
 const validators = require('../../utils/instances');
-const { requireAuth } = require('../../utils/auth')
+const { requireAuth } = require('../../utils/auth');
+
+const commonErrs = [
+  requireAuth,
+  spotExists
+]
 
 // Get all spots from the Server
 router.get('/', async (req, res, next) => {
@@ -129,17 +134,10 @@ router.get('/:spotId/reviews', async (req, res) => {
 });
 
 // Get a spot based on spotId
-router.get('/:spotId', async (req, res) => {
+router.get('/:spotId', spotExists, async (req, res) => {
   const { spotId } = req.params;
 
   const spot = await Spot.findByPk(spotId);
-
-  if (!spot) {
-    res.status(404);
-    return res.json({
-      message: "Spot not found."
-    })
-  }
 
   const spotObj = spot.toJSON()
 
@@ -172,20 +170,33 @@ router.get('/:spotId', async (req, res) => {
   );
 });
 
+// Create a booking for a spot
+router.post('/:spotId/bookings', commonErrs, validators.checkDates, async (req, res) => {
+  const { spotId } = req.params;
+  const { id } = req.user;
+  let { startDate, endDate } = req.body;
+
+  const spot = await Spot.findByPk(spotId);
+
+  startDate = new Date(startDate).toISOString().slice(0, 10)
+  endDate = new Date(endDate).toISOString().slice(0, 10)
+
+  const booking = await spot.createBooking({
+    userId: id,
+    startDate,
+    endDate,
+  });
+
+  res.json(booking)
+})
+
 // Create a review for a spot
-router.post('/:spotId/reviews', requireAuth, async (req, res) => {
+router.post('/:spotId/reviews', commonErrs, async (req, res) => {
   const { user } = req;
   const { spotId } = req.params;
   const { review, stars } = req.body;
 
   const spot = await Spot.findByPk(spotId);
-
-  if (!spot) {
-    res.status(404);
-    return res.json({
-      message: "Spot cannot be found"
-    });
-  };
 
   const newReview = await spot.createReview({
     review,
@@ -197,26 +208,12 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
 });
 
 // Add an image to an owned spot based on id
-router.post('/:spotId/images', requireAuth, validators.validateSpotImage, async (req, res) => {
+router.post('/:spotId/images', commonErrs, userOwns, validators.validateSpotImage, async (req, res) => {
   const { user } = req;
   const { spotId } = req.params;
   const { url, preview } = req.body
 
   const spot = await Spot.findByPk(spotId);
-
-  if (!spot) {
-    res.status(404);
-    return res.json({
-      message: "Spot could not be found."
-    })
-  }
-
-  if (user.id !== spot.ownerId) {
-    res.status(403);
-    return res.json({
-      message: "You are not authorized my friend!"
-    })
-  };
 
   if (preview == true) {
     await SpotImage.update({ preview: false }, {
@@ -263,26 +260,12 @@ router.post('/', requireAuth, validators.validateSpot, async (req, res) => {
 });
 
 // Edit a spot
-router.put('/:spotId', requireAuth, validators.validateSpot, async (req, res) => {
+router.put('/:spotId', commonErrs, userOwns, validators.validateSpot, async (req, res) => {
   const { user } = req;
   const { spotId } = req.params;
   const { address, city, state, country, lat, lng, name, description, price } = req.body;
   const updatedAt = Date.now()
   const spot = await Spot.findByPk(spotId);
-
-  if (!spot) {
-    res.status(404);
-    return res.json({
-      message: "Spot not found."
-    })
-  }
-
-  if (user.id !== spot.ownerId) {
-    res.status(403);
-    return res.json({
-      message: "You are not authorized to make changes to this spot"
-    })
-  };
 
   const attributes = { address, city, state, country, lat, lng, name, description, price, updatedAt };
 
@@ -296,25 +279,11 @@ router.put('/:spotId', requireAuth, validators.validateSpot, async (req, res) =>
 });
 
 // Delete a Spot
-router.delete('/:spotId', requireAuth, async (req, res) => {
+router.delete('/:spotId', commonErrs, userOwns, async (req, res) => {
   const { user } = req;
   const { spotId } = req.params;
 
   const spot = await Spot.findByPk(spotId);
-
-  if (!spot) {
-    res.status(404);
-    return res.json({
-      message: "Spot not found."
-    })
-  }
-
-  if (user.id !== spot.ownerId) {
-    res.status(403);
-    return res.json({
-      message: "You are not authorized to make changes to this spot"
-    })
-  };
 
   await spot.destroy();
 
