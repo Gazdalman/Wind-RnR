@@ -55,8 +55,14 @@ router.get('/current', requireAuth,async (req, res) => {
 router.post('/:reviewId/images', requireAuth, validators.validateReviewImage, async (req, res) => {
   const { reviewId } = req.params;
   const { url } = req.body;
+  const { user } = req;
 
   const review = await Review.findByPk(reviewId);
+  const imageCount = await ReviewImage.count({
+    where: {
+      reviewId
+    }
+  })
 
   if (!review) {
     res.status(404);
@@ -64,7 +70,12 @@ router.post('/:reviewId/images', requireAuth, validators.validateReviewImage, as
       message: "Review not found"
     })
   }
-
+  if (imageCount == 10) {
+    res.status(403);
+    return res.json({
+      message: "Maximum number of images for this resource was reached"
+    })
+  }
   if (user.id != review.userId) {
     res.status(403);
     return res.json({
