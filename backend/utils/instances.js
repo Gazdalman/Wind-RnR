@@ -2,7 +2,8 @@ const { ValidationError, Op } = require('sequelize');
 const { handleValidationErrors } = require('./validation');
 const moment = require('moment')
 const { check } = require('express-validator');
-const { Spot } = require('../db/models')
+const { Spot, Booking } = require('../db/models');
+
 
 
 const validators = {
@@ -72,22 +73,30 @@ const validators = {
 
   checkDates: async (req, res, next) => {
     const { startDate, endDate } = req.body;
-    const { spotId } = req.params;
+    const { spotId, bookingId } = req.params;
 
-    const spot = await Spot.findByPk(spotId);
+    let spot;
+    let booking;
+    let currBookings;
 
-    const currBookings = await spot.getBookings();
-
-    for (const booking of currBookings) {
-      const compareDates = (date, ...dates) => {
-        for (let dt of dates) {
-          if (dt == date) {
-            return true
+    if (spotId) {
+      spot = await Spot.findByPk(spotId);
+      currBookings = await spot.getBookings()
+    } else if (bookingId) {
+      booking = await Booking.findByPk(bookingId)
+      spot = await Spot.findByPk(booking.spotId)
+      currBookings = await spot.getBookings({
+        where: {
+          id: {
+            [Op.not]: booking.id
           }
         }
-        return false
-      }
+      })
+    }
 
+
+
+    for (const booking of currBookings) {
       const date1 = moment(booking.startDate, "MM/DD/YYYY")
       const date2 = moment(booking.endDate, "MM/DD/YYYY")
       const start = moment(startDate, "MM/DD/YYYY")
@@ -108,4 +117,5 @@ const validators = {
     next()
   }
 }
+
 module.exports = validators

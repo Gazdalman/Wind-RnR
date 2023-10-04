@@ -3,11 +3,16 @@ const { User, Spot, SpotImage, Review, ReviewImage } = require('../../db/models'
 const sequelize = require('sequelize');
 const validators = require('../../utils/instances');
 const { requireAuth } = require('../../utils/auth');
-const user = require('../../db/models/user');
+const { userOwns, reviewExists } = require('../../utils/errors')
 
+const commonErrs = [
+  requireAuth,
+  reviewExists,
+  userOwns
+]
 
 // Get all reviews from current user
-router.get('/current', requireAuth,async (req, res) => {
+router.get('/current', requireAuth, async (req, res) => {
   const { user } = req;
   const userId = user.id
 
@@ -48,11 +53,12 @@ router.get('/current', requireAuth,async (req, res) => {
 
     reviews.push(reviewObj);
   }
-  res.json(reviews)
+  res.json({
+    Reviews: reviews})
 });
 
 // Add an image to a review
-router.post('/:reviewId/images', requireAuth, validators.validateReviewImage, async (req, res) => {
+router.post('/:reviewId/images', commonErrs, validators.validateReviewImage, async (req, res) => {
   const { reviewId } = req.params;
   const { url } = req.body;
   const { user } = req;
@@ -64,22 +70,10 @@ router.post('/:reviewId/images', requireAuth, validators.validateReviewImage, as
     }
   })
 
-  if (!review) {
-    res.status(404);
-    return res.json({
-      message: "Review not found"
-    })
-  }
   if (imageCount == 10) {
     res.status(403);
     return res.json({
       message: "Maximum number of images for this resource was reached"
-    })
-  }
-  if (user.id != review.userId) {
-    res.status(403);
-    return res.json({
-      message: "You are not authorized my friend."
     })
   }
 
@@ -97,26 +91,12 @@ router.post('/:reviewId/images', requireAuth, validators.validateReviewImage, as
 });
 
 // Edit a review
-router.put('/:reviewId', requireAuth, validators.validateReview, async(req,res) => {
+router.put('/:reviewId', commonErrs, validators.validateReview, async(req,res) => {
   const {reviewId} = req.params;
   const { user } = req;
   const { review, stars} = req.body;
 
   const rev = await Review.findByPk(reviewId);
-
-  if (!rev) {
-    res.status(404);
-    return res.json({
-      message: "Review not found"
-    })
-  };
-
-  if (user.id != rev.userId) {
-    res.status(403);
-    return res.json({
-      message: "You are not authorized my friend."
-    });
-  };
 
   rev.review = review;
   rev.stars = stars;
@@ -126,25 +106,12 @@ router.put('/:reviewId', requireAuth, validators.validateReview, async(req,res) 
   res.json(rev)
 });
 
-router.delete('/:reviewId', requireAuth, async(req,res) => {
+// Delete review
+router.delete('/:reviewId', commonErrs, async(req,res) => {
   const { user } = req;
   const {reviewId} = req.params;
 
   const rev = await Review.findByPk(reviewId);
-
-  if (!rev) {
-    res.status(404);
-    return res.json({
-      message: "Review not found"
-    });
-  };
-
-  if (user.id != rev.userId) {
-    res.status(403)
-    return res.json({
-      message: "You are not authorized my friend."
-    })
-  };
 
   await rev.destroy();
 
