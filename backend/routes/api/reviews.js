@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Spot, Review, ReviewImage } = require('../../db/models');
+const { User, Spot, SpotImage, Review, ReviewImage } = require('../../db/models');
 const sequelize = require('sequelize');
 const validators = require('../../utils/instances');
 const { requireAuth } = require('../../utils/auth');
@@ -35,6 +35,15 @@ router.get('/current', requireAuth,async (req, res) => {
 
   for (const review of userReviews) {
     const reviewObj = review.toJSON();
+     const spotImage = await SpotImage.findOne({
+      where: {
+        spotId: reviewObj.Spot.id,
+        preview: true
+      }
+    });
+
+    if (spotImage) reviewObj.Spot.previewImage = spotImage.url;
+
     if (reviewObj.ReviewImages.length < 1) delete reviewObj.ReviewImages
 
     reviews.push(reviewObj);
