@@ -13,34 +13,34 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Spot.belongsTo(
         models.User, {
-          foreignKey: 'ownerId',
-          as: 'owner'
-        }
+        foreignKey: 'ownerId',
+        as: 'owner'
+      }
       );
 
       Spot.hasMany(
         models.SpotImage, {
-          foreignKey: 'spotId'
-        }
+        foreignKey: 'spotId'
+      }
       );
 
       Spot.hasMany(
         models.Review, {
-          foreignKey: 'spotId'
-        }
+        foreignKey: 'spotId'
+      }
       );
 
       Spot.hasMany(
         models.Booking, {
-          foreignKey: 'spotId'
-        }
+        foreignKey: 'spotId'
+      }
       )
     }
   }
   Spot.init({
     ownerId: {
-     type: DataTypes.INTEGER,
-     allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     address: {
       type: DataTypes.STRING,
@@ -59,26 +59,44 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     lat: {
-      type: DataTypes.DECIMAL(9,7),
+      type: DataTypes.DECIMAL(9, 7),
       allowNull: false,
       validate: {
-        min: -90,
-        max: 90
+        isDecimal: {
+          msg: "Latitude must be a number"
+        },
+        min: {
+          args: -90,
+          msg: "Minimum latitude exceeded"
+        },
+        max: {
+          args: 90,
+          msg: "Maximum latitude exceeded"
+        }
       }
     },
     lng: {
-      type: DataTypes.DECIMAL(10,7),
+      type: DataTypes.DECIMAL(10, 7),
       allowNull: false,
       validate: {
-        min: -180,
-        max: 180
+        isDecimal: {
+          msg: "Latitude must be a number"
+        },
+        min: {
+          args: -180,
+          msg: "Minimum longitude exceeded"
+        },
+        max: {
+          args: 180,
+          msg: "Maximum longitude exceeded"
+        }
       }
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [ 5, 50 ]
+        len: [5, 50]
       }
     },
     description: {
@@ -86,8 +104,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     price: {
-      type: DataTypes.DECIMAL(10,2),
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
+      validate: {
+        isDecimal: {
+          msg: "Latitude must be a number"
+        },
+      }
     }
   }, {
     sequelize,
