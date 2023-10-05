@@ -53,6 +53,8 @@ router.get('/', queryCheck, paginationCheck, async (req, res) => {
 
   res.json({
     Spots: spotsJSON,
+    page,
+    size
   });
 });
 

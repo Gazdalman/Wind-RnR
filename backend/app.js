@@ -66,7 +66,7 @@ app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
   console.error(err);
   let message;
-  let errors
+  let errors;
   let title;
   if (err.message) message = err.message
   if (err.errors) errors = err.errors

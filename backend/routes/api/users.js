@@ -46,7 +46,7 @@ router.get('/this-is-bananable', async (req,res) => {
     }]
   });
 
-  res.json(users, spots, reviews)
+  res.json({users, spots, reviews})
 })
 
 
