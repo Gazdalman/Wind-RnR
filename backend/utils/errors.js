@@ -115,7 +115,7 @@ const bookingNotPast = async (req, _res, next) => {
 }
 
 // Check if the current user owns the resource the image is attached to
-const userImage = async (req, res, next) => {
+const userImage = async (req, _res, next) => {
   const { image, user } = req;
 
   if (image.reviewId) {
@@ -140,6 +140,84 @@ const userImage = async (req, res, next) => {
   next()
 }
 
+const pgMsg = "Page must be greater than or equal to 1"
+const szMsg = "Size must be greater than or equal to 1"
+const mnLtMsg = "Maximum latitude is invalid"
+const mxLtMsg = "Minimum latitude is invalid"
+const mnLngMsg = "Maximum longitude is invalid"
+const mxLngMsg = "Minimum longitude is invalid"
+const minPriceMsg = "Minimum price must be greater than or equal to 0"
+const maxPriceMsg = "Maximum price must be greater than or equal to 0"
+
+// Checking if query params are named and defined
+const queryCheck = (req,_res,next) => {
+  const err = new Error("Bad request");
+  err.status = 400;
+  err.errors = {};
+  let errorHit;
+  const queryKeys = Object.keys(req.query);
+
+ if (req.query.page < 1) {
+    errorHit = true;
+    err.errors.page = pgMsg;
+  };
+
+  if (req.query.size < 1) {
+    errorHit = true;
+    err.errors.size = szMsg;
+  };
+
+  if (req.query.maxLat > 90) {
+    errorHit = true;
+    err.errors.maxLat = mxLtMsg;
+  };
+
+  if (req.query.minLat < -90) {
+    errorHit = true;
+    err.errors.minLat = mnLtMsg;
+  };
+
+  if (req.query.minLng < -180) {
+    errorHit = true;
+    err.errors.minLng = mnLngMsg;
+  };
+
+  if (req.query.maxLng > 180) {
+    errorHit = true;
+    err.errors.maxLng = mxLngMsg;
+  };
+
+  if (req.query.minPrice < 0) {
+    errorHit = true;
+    err.errors.minPrice = minPriceMsg;
+  };
+
+  if (req.query.maxPrice < 0) {
+    errorHit = true;
+    err.errors.maxPrice = maxPriceMsg;
+  };
+
+  for (let key of queryKeys) {
+    if (!req.query[key]) {
+      errorHit = true;
+      if (key == "page") err.errors[key] = pgMsg;
+      if (key == "size") err.errors[key] = szMsg;
+      if (key == "maxLat") err.errors[key] = mxLtMsg;
+      if (key == "minLat") err.errors[key] = mnLtMsg;
+      if (key == "minLng") err.errors[key] = mnLngMsg;
+      if (key == "maxLng") err.errors[key] = mxLngMsg;
+      if (key == "minPrice") err.errors[key] = minPriceMsg;
+      if (key == "maxPrice") err.errors[key] = maxPriceMsg;
+    };
+  };
+
+  if (errorHit) {
+    return next(err)
+  }
+  next()
+}
+
+
 
 module.exports = {
   userOwns,
@@ -148,5 +226,6 @@ module.exports = {
   bookingExists,
   bookingNotPast,
   userImage,
-  imageExists
+  imageExists,
+  queryCheck
 }
