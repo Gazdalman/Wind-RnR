@@ -94,7 +94,9 @@ const validators = {
       })
     }
 
-
+    const err = new Error("Sorry, this spot is already booked for the specified dates");
+    err.errors = {}
+    let errorHit = false;
 
     for (const booking of currBookings) {
       const date1 = moment(booking.startDate, "MM/DD/YYYY")
@@ -104,16 +106,23 @@ const validators = {
 
       if (start.isSameOrBefore(date1) && end.isSameOrAfter(date2)) {
         const err = new ValidationError("There is a booking conflict");
-        return next(err);
+        errorHit = true
+        err.errors.matchingDates = "One or more of your dates conflict with an existing booking"
       }
 
       // Check if the new booking partially overlaps with an existing booking
-      if (start.isBetween(date1, date2) || end.isBetween(date1, date2)) {
-        const err = new ValidationError("There is a booking conflict");
-        return next(err);
+      if (start.isBetween(date1, date2)) {
+        errorHit = true;
+        err.errors.startDate = "Start date conflicts with an existing booking"
+      }
+      if (end.isBetween(date1, date2)) {
+        errorHit = true;
+        err.errors.endDate = "End date conflicts with an existing booking"
       }
     }
-
+    if (errorHit) {
+      next(err)
+    }
     next()
   }
 }

@@ -11,7 +11,7 @@ const commonErrs = [
 ]
 
 // Get all spots from the Server
-router.get('/', async (req, res, next) => {
+router.get('/', async (_req, res) => {
   const spots = await Spot.findAll({
     order: [['id']]
   });
@@ -306,7 +306,6 @@ router.put('/:spotId', commonErrs, userOwns, validators.validateSpot, async (req
 
 // Delete a Spot
 router.delete('/:spotId', commonErrs, userOwns, async (req, res) => {
-  const { user } = req;
   const { spotId } = req.params;
 
   const spot = await Spot.findByPk(spotId);
@@ -317,6 +316,7 @@ router.delete('/:spotId', commonErrs, userOwns, async (req, res) => {
     message: "Spot successfully deleted"
   })
 });
+
 
 
 module.exports = router

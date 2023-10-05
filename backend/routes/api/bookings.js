@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { Booking, User, Spot, SpotImage, Review, ReviewImage } = require('../../db/models');
 const sequelize = require('sequelize');
-const { userOwns, bookingExists } = require('../../utils/errors')
+const { userOwns, bookingExists, bookingNotPast } = require('../../utils/errors')
 const validators = require('../../utils/instances');
 const { requireAuth } = require('../../utils/auth');
 
@@ -51,7 +51,7 @@ router.get('/current', requireAuth, async (req, res) => {
 });
 
 // Edit a booking
-router.put('/:bookingId', commonErrs, validators.checkDates, async (req, res) => {
+router.put('/:bookingId', commonErrs, bookingNotPast, validators.checkDates, async (req, res) => {
   const {bookingId} = req.params;
   let { startDate, endDate } = req.body;
 
@@ -69,4 +69,12 @@ router.put('/:bookingId', commonErrs, validators.checkDates, async (req, res) =>
   res.json(booking)
 })
 
+router.delete('/:bookingId', commonErrs, bookingNotPast, async(req,res) => {
+  const {bookingId} = req.params;
+  const booking = await Booking.findByPk(bookingId);
+
+  await booking.destroy();
+
+  res.json("Booking successfully deleted!")
+})
 module.exports = router

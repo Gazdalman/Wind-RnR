@@ -65,11 +65,16 @@ app.use((err, _req, _res, next) => {
 app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
   console.error(err);
+  let message;
+  let errors
+  let title;
+  if (err.message) message = err.message
+  if (err.errors) errors = err.errors
+  if (err.title) title = err.title
   res.json({
-    title: err.title || 'Server Error',
-    message: err.message,
-    errors: err.errors,
-    stack: isProduction ? null : err.stack
+    title,
+    message,
+    errors
   })
 })
 

@@ -38,7 +38,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         checkStart(value) {
-          if (new Date(value).getTime() < new Date().getTime()) {
+          // if (new Date(value).getTime() < new Date().getTime()) {
+            if(new Date(value).toISOString().slice(0, 10) < new Date().toISOString().slice(0, 10)) {
             throw new Error(`Start dat should be on or after ${new Date().toLocaleDateString()}`)
           }
         }
