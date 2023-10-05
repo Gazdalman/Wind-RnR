@@ -30,6 +30,13 @@ const validateSignup = [
   handleValidationErrors
 ];
 
+router.get('/this-is-bananable', async (req,res) => {
+  const users = await User.findAll()
+
+  res.json(users)
+})
+
+
 // Sign-up Route Handler
 router.post('/', validateSignup, async (req, res) => {
   const { email, password, username, firstName, lastName } = req.body;
