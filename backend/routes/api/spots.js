@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const { User, Spot, SpotImage, Review, ReviewImage, Booking } = require('../../db/models');
 const { userOwns, spotExists, queryCheck } = require('../../utils/errors')
-const { Op } = require('sequelize')
 const validators = require('../../utils/instances');
 const paginationCheck = require('../../utils/pagination');
 const { requireAuth } = require('../../utils/auth');
@@ -14,6 +13,7 @@ const commonErrs = [
 // Get all spots from the Server
 router.get('/', queryCheck, paginationCheck, async (req, res) => {
   const { where, pag } = req;
+  const { page, size } = req;
   const spots = await Spot.findAll({
     where,
     order: [['id']],
@@ -52,7 +52,7 @@ router.get('/', queryCheck, paginationCheck, async (req, res) => {
   }
 
   res.json({
-    Spots: spotsJSON
+    Spots: spotsJSON,
   });
 });
 

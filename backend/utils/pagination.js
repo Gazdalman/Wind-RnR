@@ -12,10 +12,11 @@ const paginationCheck = async (req, _res, next) => {
   const pag = {};
 
   if (page > 10) page = 10;
+  if (!page) page = 1;
   if (size > 20 || !size) size = 20;
 
   pag.limit = size;
-  pag.offset = page ? size * (page - 1) : 0
+  pag.offset = size * (page - 1)
 
   const where = {
     lat: {
@@ -30,7 +31,9 @@ const paginationCheck = async (req, _res, next) => {
   }
 
   req.where = where;
-  req.pag = pag
+  req.pag = pag;
+  req.page = page;
+  req.size = size;
   next()
 }
 

@@ -25,12 +25,14 @@ module.exports = {
       username: 'FutRWizKing',
       email: 'asta@user.io',
       firstName: 'Asta',
+      lastName: 'N/A',
       hashedPassword: bcrypt.hashSync('password'),
     },
     {
       username: 'theRLFutRWK',
       email: 'yuno@user.io',
       firstName: 'Yuno',
+      lastName: 'N/A',
       hashedPassword: bcrypt.hashSync('password2'),
     },
     {
