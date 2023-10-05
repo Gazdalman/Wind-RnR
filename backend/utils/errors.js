@@ -67,7 +67,7 @@ const bookingExists = async (req, _res, next) => {
 // Check if a user owns a specific resource
 const userOwns = async (req, _res, next) => {
   const { id } = req.user;
-  const { review, spot, booking } = req;
+  const { review, spot, booking, method } = req;
 
   if (spot) {
     if (id != spot.ownerId) {
@@ -88,11 +88,20 @@ const userOwns = async (req, _res, next) => {
     return next()
 
   }
-  if (id != booking.userId) {
+  const bkSpot = await booking.getSpot()
+
+  if (id != booking.userId && id != bkSpot.ownerId) {
+    const err = new Error(`Forbidden`);
+    err.status = 403;
+    return next(err)
+  }
+
+  if (id == bkSpot.ownerId && method == "PUT") {
     const err = new Error("Forbidden");
     err.status = 403;
     return next(err)
   }
+
   delete req.booking
   return next()
 
@@ -217,6 +226,18 @@ const queryCheck = (req,_res,next) => {
   next()
 }
 
+const doesNotOwn = async(req,_res,next) => {
+  const {spot, user} = req;
+
+  if (user.id == spot.ownerId) {
+    const err = new Error("Forbidden");
+    err.status = 403;
+    return next(err)
+  }
+
+  next()
+}
+
 
 
 module.exports = {
@@ -227,5 +248,6 @@ module.exports = {
   bookingNotPast,
   userImage,
   imageExists,
-  queryCheck
+  queryCheck,
+  doesNotOwn
 }
