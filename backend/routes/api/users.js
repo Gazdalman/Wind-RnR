@@ -17,24 +17,21 @@ const validateSignup = [
     .exists({ checkFalsy: true })
     .isLength({ min: 4 })
     .withMessage('Please provide a username with at least 4 characters.'),
-  check('username')
-    .isEmail()
-    .withMessage('Username cannot be an email.'),
   check('password')
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
     .withMessage('Password must be 6 characters or more.'),
-    check('firstName')
-    .exists({checkFalsy: true})
+  check('firstName')
+    .exists({ checkFalsy: true })
     .withMessage("Fist name is required"),
-    check('lastName')
-    .exists({checkFalsy: true})
+  check('lastName')
+    .exists({ checkFalsy: true })
     .withMessage('Last name is required'),
   handleValidationErrors
 ];
 
 // Sign-up Route Handler
-router.post('/', validateSignup,  async (req, res) => {
+router.post('/', validateSignup, async (req, res) => {
   const { email, password, username, firstName, lastName } = req.body;
   const hashedPassword = bcrypt.hashSync(password);
   let newLN;
@@ -68,9 +65,9 @@ router.get('/test', async (req, res) => {
   res.json(user)
 });
 
-router.delete('/', async(req,res) => {
+router.delete('/', async (req, res) => {
   const { user } = req;
-  const {id} = user;
+  const { id } = user;
 
   const formerUser = await User.findByPk(id);
 
