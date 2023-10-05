@@ -34,11 +34,11 @@ const reviewExists = async (req, _res, next) => {
 const imageExists = async (req, _res, next) => {
   const { imageId } = req.params;
 
-  let spotImage = await SpotImage.findByPk(imageId);
-  let reviewImage = await ReviewImage.findByPk(imageId);
+  let spotImage;
+  let reviewImage;
 
-  if (req.originalUrl.includes("spot")) spotImage = await SpotImage.findByPk(imageId);
-  if (req.originalUrl.includes("review")) reviewImage = await ReviewImage.findByPk(imageId);
+  if (req.originalUrl.includes("spot")) spotImage = await SpotImage.unscoped().findByPk(imageId);
+  if (req.originalUrl.includes("review")) reviewImage = await ReviewImage.unscoped().findByPk(imageId);
 
   if (!(spotImage || reviewImage)) {
     const err = new Error("Image not found.");
@@ -71,7 +71,7 @@ const userOwns = async (req, _res, next) => {
 
   if (spot) {
     if (id != spot.ownerId) {
-      const err = new Error("You are not authorized my friend.");
+      const err = new Error("Forbidden");
       err.status = 403;
       return next(err)
     }
@@ -80,7 +80,7 @@ const userOwns = async (req, _res, next) => {
 
   } else if (review) {
     if (id != review.userId) {
-      const err = new Error("You are not authorized my friend.");
+      const err = new Error("Forbidden");
       err.status = 403;
       return next(err)
     }
@@ -89,7 +89,7 @@ const userOwns = async (req, _res, next) => {
 
   }
   if (id != booking.userId) {
-    const err = new Error("You are not authorized my friend.");
+    const err = new Error("Forbidden");
     err.status = 403;
     return next(err)
   }
@@ -122,7 +122,7 @@ const userImage = async (req, res, next) => {
     const review = await Review.findByPk(image.reviewId);
 
     if (user.id != review.userId) {
-      const err = new Error("You are not authorized my friend.");
+      const err = new Error("Forbidden");
       err.status = 403;
       return next(err)
     }
@@ -132,11 +132,11 @@ const userImage = async (req, res, next) => {
   const spot = await Spot.findByPk(image.spotId);
 
   if (user.id != spot.ownerId) {
-    const err = new Error("You are not authorized my friend.");
+    const err = new Error("Forbidden");
     err.status = 403;
     return next(err)
   }
-  
+
   next()
 }
 
