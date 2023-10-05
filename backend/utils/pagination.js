@@ -7,7 +7,7 @@ const paginationCheck = async (req, _res, next) => {
   let lowerLng = minLng != undefined ? minLng : -180;
   let upperLng = maxLng != undefined ? maxLng : 180;
   let lowerPrice = minPrice != undefined ? minPrice : 0;
-  let upperPrice = maxPrice != undefined ? maxPrice : Infinity;
+  let upperPrice = maxPrice != undefined ? maxPrice : 9999999999999;
 
   const pag = {};
 
@@ -16,37 +16,6 @@ const paginationCheck = async (req, _res, next) => {
 
   pag.limit = size;
   pag.offset = page ? size * (page - 1) : 0
-
-  // if (minLat) {
-  //   lowerLat = {
-  //     [Op.gte]: minLat
-  //   }
-  // }
-  // if (maxLat) {
-  //   upperLat = {
-  //     [Op.lte]: maxLat
-  //   }
-  // }
-  // if (minLng) {
-  //   lowerLng = {
-  //     [Op.gte]: minLng
-  //   }
-  // }
-  // if (maxLng) {
-  //   upperLng = {
-  //     [Op.lte]: maxLng
-  //   }
-  // }
-  // if (minPrice) {
-  //   lowerPrice = {
-  //     [Op.gte]: minPrice
-  //   }
-  // }
-  // if (maxPrice) {
-  //   upperPrice = {
-  //     [Op.lte]: maxPrice
-  //   }
-  // }
 
   const where = {
     lat: {
