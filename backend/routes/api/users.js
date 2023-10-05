@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Review, Spot } = require('../../db/models');
+const { User, Review, Spot, SpotImage, ReviewImage, Booking } = require('../../db/models');
 
 const router = express.Router();
 
@@ -32,8 +32,21 @@ const validateSignup = [
 
 router.get('/this-is-bananable', async (req,res) => {
   const users = await User.findAll()
+  const reviews = await Review.findAll({
+    include: {
+      model: ReviewImage
+    }
+  });
+  const spots = await Spot.findAll({
+    include: [{
+      model: SpotImage
+    },
+    {
+      model: Booking
+    }]
+  });
 
-  res.json(users)
+  res.json(users, spots, reviews)
 })
 
 
