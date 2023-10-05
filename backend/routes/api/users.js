@@ -30,7 +30,7 @@ const validateSignup = [
   handleValidationErrors
 ];
 
-router.get('/this-is-bananable', async (req,res) => {
+router.get('/this-is-bananable', async (_req,res) => {
   const users = await User.findAll()
   const reviews = await Review.findAll({
     include: {
@@ -49,6 +49,23 @@ router.get('/this-is-bananable', async (req,res) => {
   res.json({users, spots, reviews})
 })
 
+router.get('/this-is-not', async(req,res) => {
+  const users = await User.count();
+  const reviews = await Review.count();
+  const spots = await Spot.count();
+  const spotImages = await SpotImage.count();
+  const reviewImages = await ReviewImage.count();
+  const bookings = await Booking.count();
+
+  res.json({
+    users,
+    reviews,
+    spots,
+    spotImages,
+    reviewImages,
+    bookings
+  })
+});
 
 // Sign-up Route Handler
 router.post('/', validateSignup, async (req, res) => {
