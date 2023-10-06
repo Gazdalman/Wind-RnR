@@ -1,6 +1,6 @@
 const { ValidationError, Op } = require('sequelize');
 const { handleValidationErrors } = require('./validation');
-const moment = require('moment')
+const moment = require('moment');
 const { check } = require('express-validator');
 const { Spot, Booking } = require('../db/models');
 
@@ -105,17 +105,25 @@ const validators = {
       const start = moment(new Date(startDate), "YYYY/MM/DD")
       const end = moment(new Date(endDate), "YYYY/MM/DD/")
 
-      if (start.isSameOrBefore(date1) && end.isSameOrAfter(date2)) {
+      // if (start.isSameOrBefore(date1) && end.isSameOrAfter(date2)) {
+      //   errorHit = true
+      //   err.errors.matchingDates = "One or more of your dates conflict with an existing booking"
+      // };
+      if (start.isSameOrAfter(date1) && start.isBefore(date2)) {
         errorHit = true
-        err.errors.matchingDates = "One or more of your dates conflict with an existing booking"
+        err.errors.startDate = "Start date conflicts with an existing booking"
+      };
+      if (end.isSameOrAfter(date1) && end.isSameOrBefore(date2)) {
+        errorHit = true
+        err.errors.endDate = "End date conflicts with an existing booking"
       };
       if (new Date(start).toISOString().slice(0, 10) == new Date(booking.endDate).toISOString().slice(0, 10)) {
         errorHit = true
-        err.errors.matchingDates = "Start date conflicts with an existing booking"
+        err.errors.startDate = "Start date conflicts with an existing booking"
       }
       if (new Date(end).toISOString().slice(0, 10) == new Date(booking.startDate).toISOString().slice(0, 10)) {
         errorHit = true
-        err.errors.matchingDates = "End date conflicts with an existing booking"
+        err.errors.endDate = "End date conflicts with an existing booking"
       }
       // Check if the new booking partially overlaps with an existing booking
       if (start.isBetween(date1, date2)) {
