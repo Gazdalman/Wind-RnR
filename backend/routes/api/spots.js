@@ -107,7 +107,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
 
 // Get all reviews by spot id
-router.get('/:spotId/reviews', async (req, res) => {
+router.get('/:spotId/reviews', spotExists, async (req, res) => {
   const { spotId } = req.params;
 
 
@@ -136,7 +136,8 @@ router.get('/:spotId/reviews', async (req, res) => {
 
   }
 
-  res.json(allReviews)
+  res.json({
+    Reviews: allReviews})
 });
 
 // Get all bookings for a spot

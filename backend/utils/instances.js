@@ -48,7 +48,7 @@ const validators = {
   ],
   validateReview: [
     check('review')
-      .exists()
+      .exists({checkFalsy: true})
       .withMessage("Review must have a comment"),
     check('stars')
       .exists({ checkFalsy: true })
@@ -99,10 +99,10 @@ const validators = {
     let errorHit = false;
 
     for (const booking of currBookings) {
-      const date1 = moment(booking.startDate, "MM/DD/YYYY")
-      const date2 = moment(booking.endDate, "MM/DD/YYYY")
-      const start = moment(startDate, "MM/DD/YYYY")
-      const end = moment(endDate, "MM/DD/YYYY")
+      const date1 = moment(booking.startDate, "YYYY/MM/DD")
+      const date2 = moment(booking.endDate, "YYYY/MM/DD")
+      const start = moment(new Date(startDate), "YYYY/MM/DD")
+      const end = moment(new Date(endDate), "YYYY/MM/DD/")
 
       if (start.isSameOrBefore(date1) && end.isSameOrAfter(date2)) {
         const err = new ValidationError("There is a booking conflict");

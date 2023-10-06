@@ -1,4 +1,5 @@
 'use strict';
+const moment = require('moment')
 const {
   Model, ValidationError, Op
 } = require('sequelize');
@@ -39,7 +40,8 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         checkStart(value) {
           // if (new Date(value).getTime() < new Date().getTime()) {
-            if(new Date(value).toISOString().slice(0, 10) < new Date().toISOString().slice(0, 10)) {
+            // if(new Date(value).toISOString().slice(0, 10) < new Date().toISOString().slice(0, 10)) {
+              if (moment(value, "YYY-MM-DD").isBefore(moment(new Date().toLocaleDateString(), "MM-DD-YYYY"))) {
             throw new Error(`Start dat should be on or after ${new Date().toLocaleDateString()}`)
           }
         }
