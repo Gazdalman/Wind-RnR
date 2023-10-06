@@ -95,6 +95,7 @@ const validators = {
     }
 
     const err = new Error("Sorry, this spot is already booked for the specified dates");
+    err.status = 400
     err.errors = {}
     let errorHit = false;
 
@@ -105,17 +106,14 @@ const validators = {
       const end = moment(new Date(endDate), "YYYY/MM/DD/")
 
       if (start.isSameOrBefore(date1) && end.isSameOrAfter(date2)) {
-        const err = new ValidationError("There is a booking conflict");
         errorHit = true
         err.errors.matchingDates = "One or more of your dates conflict with an existing booking"
       };
       if (new Date(start).toISOString().slice(0, 10) == new Date(booking.endDate).toISOString().slice(0, 10)) {
-        const err = new ValidationError("There is a booking conflict");
         errorHit = true
         err.errors.matchingDates = "Start date conflicts with an existing booking"
       }
       if (new Date(end).toISOString().slice(0, 10) == new Date(booking.startDate).toISOString().slice(0, 10)) {
-        const err = new ValidationError("There is a booking conflict");
         errorHit = true
         err.errors.matchingDates = "End date conflicts with an existing booking"
       }
