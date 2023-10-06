@@ -49,8 +49,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
-        min: 1,
-        max: 5
+        min: {
+          args: 1,
+          msg: "Must give 1 to 5 star rating."
+        },
+        max: {
+          args: 5,
+          msg: "Must give 1 to 5 star rating."
+        }
       }
     }
   }, {

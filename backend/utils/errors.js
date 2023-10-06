@@ -238,6 +238,23 @@ const doesNotOwn = async(req,_res,next) => {
   next()
 }
 
+const alreadyReviewed = async(req,res,next) => {
+  const { user } = req;
+
+  const review = await Review.findOne({
+    where: {
+      userId: user.id
+    }
+  });
+
+  if (review) {
+    const err = new Error("You have already reviewed this spot");
+    err.status = 403;
+    return next(err)
+  }
+  next()
+}
+
 
 
 module.exports = {
@@ -249,5 +266,6 @@ module.exports = {
   userImage,
   imageExists,
   queryCheck,
-  doesNotOwn
+  doesNotOwn,
+  alreadyReviewed
 }

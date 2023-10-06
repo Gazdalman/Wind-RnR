@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { User, Spot, SpotImage, Review, ReviewImage, Booking } = require('../../db/models');
-const { userOwns, spotExists, queryCheck, doesNotOwn } = require('../../utils/errors')
+const { userOwns, spotExists, queryCheck, doesNotOwn, alreadyReviewed } = require('../../utils/errors')
 const validators = require('../../utils/instances');
 const paginationCheck = require('../../utils/pagination');
 const { requireAuth } = require('../../utils/auth');
@@ -223,7 +223,7 @@ router.post('/:spotId/bookings', commonErrs, doesNotOwn, validators.checkDates, 
 })
 
 // Create a review for a spot
-router.post('/:spotId/reviews', commonErrs, doesNotOwn, async (req, res) => {
+router.post('/:spotId/reviews', commonErrs, doesNotOwn, alreadyReviewed, async (req, res) => {
   const { user } = req;
   const { spotId } = req.params;
   const { review, stars } = req.body;

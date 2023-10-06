@@ -108,8 +108,17 @@ const validators = {
         const err = new ValidationError("There is a booking conflict");
         errorHit = true
         err.errors.matchingDates = "One or more of your dates conflict with an existing booking"
+      };
+      if (new Date(start).toISOString().slice(0, 10) == new Date(booking.endDate).toISOString().slice(0, 10)) {
+        const err = new ValidationError("There is a booking conflict");
+        errorHit = true
+        err.errors.matchingDates = "Start date conflicts with an existing booking"
       }
-
+      if (new Date(end).toISOString().slice(0, 10) == new Date(booking.startDate).toISOString().slice(0, 10)) {
+        const err = new ValidationError("There is a booking conflict");
+        errorHit = true
+        err.errors.matchingDates = "End date conflicts with an existing booking"
+      }
       // Check if the new booking partially overlaps with an existing booking
       if (start.isBetween(date1, date2)) {
         errorHit = true;
@@ -121,7 +130,7 @@ const validators = {
       }
     }
     if (errorHit) {
-      next(err)
+      return next(err)
     }
     next()
   }
