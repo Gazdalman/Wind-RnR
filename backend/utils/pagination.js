@@ -1,4 +1,5 @@
-const { Op } = require('sequelize')
+const { Op } = require('sequelize');
+
 const paginationCheck = async (req, _res, next) => {
   let { page, size } = req.query;
   const { minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;

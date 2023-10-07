@@ -45,6 +45,7 @@ const imageExists = async (req, _res, next) => {
     err.status = 404;
     return next(err)
   }
+
   req.image = spotImage ? spotImage : reviewImage
   next()
 }
@@ -219,10 +220,11 @@ const queryCheck = (req,_res,next) => {
       if (key == "maxPrice") err.errors[key] = maxPriceMsg;
     };
   };
-
+  
   if (errorHit) {
     return next(err)
   }
+
   next()
 }
 
