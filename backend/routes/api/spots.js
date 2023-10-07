@@ -224,7 +224,7 @@ router.post('/:spotId/bookings', commonErrs, doesNotOwn, validators.checkDates, 
 })
 
 // Create a review for a spot
-router.post('/:spotId/reviews', commonErrs, doesNotOwn, alreadyReviewed, async (req, res) => {
+router.post('/:spotId/reviews', commonErrs, doesNotOwn, alreadyReviewed, validators.validateReview, async (req, res) => {
   const { user } = req;
   const { spotId } = req.params;
   const { review, stars } = req.body;

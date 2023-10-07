@@ -220,7 +220,7 @@ const queryCheck = (req,_res,next) => {
       if (key == "maxPrice") err.errors[key] = maxPriceMsg;
     };
   };
-  
+
   if (errorHit) {
     return next(err)
   }
@@ -242,15 +242,17 @@ const doesNotOwn = async(req,_res,next) => {
 
 const alreadyReviewed = async(req,res,next) => {
   const { user } = req;
+  const {spotId} = req.params
 
   const review = await Review.findOne({
     where: {
-      userId: user.id
+      userId: user.id,
+      spotId
     }
   });
 
   if (review) {
-    const err = new Error("You have already reviewed this spot");
+    const err = new Error("User already has a review for this spot");
     err.status = 403;
     return next(err)
   }

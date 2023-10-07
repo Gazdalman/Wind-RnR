@@ -109,6 +109,10 @@ const validators = {
       //   errorHit = true
       //   err.errors.matchingDates = "One or more of your dates conflict with an existing booking"
       // };
+      if (start.isBefore(date1) && end.isAfter(date2)) {
+        errorHit = true
+        err.errors.dates = "Both dates surround an existing booking"
+      }
       if (start.isSameOrAfter(date1) && start.isBefore(date2)) {
         errorHit = true
         err.errors.startDate = "Start date conflicts with an existing booking"

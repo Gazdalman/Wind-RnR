@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, ValidationError
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Review extends Model {
@@ -43,6 +43,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
+        isNotFalsy(value) {
+          if (value == "") {
+            throw new ValidationError("Review must have a comment")
+          }
+        }
       }
     },
     stars: {
