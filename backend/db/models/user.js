@@ -31,7 +31,10 @@ module.exports = (sequelize, DataTypes) => {
       username: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: {
+          args: true,
+          msg: "Username must be unique"
+        },
         validate: {
           len: [4, 30],
           isNotEmail(value) {

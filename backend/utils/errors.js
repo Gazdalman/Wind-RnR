@@ -253,7 +253,7 @@ const alreadyReviewed = async(req,res,next) => {
 
   if (review) {
     const err = new Error("User already has a review for this spot");
-    err.status = 403;
+    err.status = 500;
     return next(err)
   }
   next()

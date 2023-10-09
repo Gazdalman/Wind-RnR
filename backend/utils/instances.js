@@ -21,20 +21,27 @@ const validators = {
       .exists({ checkFalsy: true })
       .withMessage("Country is required"),
     check("lat")
-      .exists({ checkNull: true })
-      .withMessage("Latitude is not valid"),
+      .exists({ checkFalsy: true })
+      .withMessage("Latitude is not valid")
+      .isFloat({ min: -90, max: 90 })
+      .withMessage("Latitude must be between -90 and 90"),
     check("lng")
-      .exists({ checkNull: true })
-      .withMessage("Longitude is not valid"),
+      .exists({ checkFalsy: true })
+      .withMessage("Longitude is not valid")
+      .isFloat({ min: -180, max: 180 })
+      .withMessage("Longitude must be a valid number between -180 and 180"),
     check("name")
       .exists({ checkFalsy: true })
-      .withMessage("Name must be less than 50 characters"),
+      .isLength({ min: 5, max: 50 })
+      .withMessage("Name must be 5 to 50 characters"),
     check("description")
       .exists({ checkFalsy: true })
       .withMessage("Description is required"),
     check("price")
       .exists({ checkFalsy: true })
-      .withMessage("Price per day is required"),
+      .withMessage("Price per day is required")
+      .isFloat({ min: 0 })
+      .withMessage("Price must be $0 or more"),
     handleValidationErrors
   ],
   validateSpotImage: [
@@ -48,11 +55,13 @@ const validators = {
   ],
   validateReview: [
     check('review')
-      .exists({checkFalsy: true})
+      .exists({ checkFalsy: true })
       .withMessage("Review must have a comment"),
     check('stars')
       .exists({ checkFalsy: true })
-      .withMessage('Please enter a star amount'),
+      .withMessage('Please enter a star amount')
+      .isInt({ min: 1, max: 5 })
+      .withMessage('Stars must be between 1 and 5'),
     handleValidationErrors
   ],
   validateReviewImage: [
@@ -95,7 +104,7 @@ const validators = {
     }
 
     const err = new Error("Sorry, this spot is already booked for the specified dates");
-    err.status = 400
+    err.status = 403
     err.errors = {}
     let errorHit = false;
 

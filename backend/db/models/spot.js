@@ -63,6 +63,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isDecimal: {
+          args: true,
           msg: "Latitude must be a number"
         },
         min: {
