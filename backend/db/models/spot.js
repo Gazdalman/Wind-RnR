@@ -63,6 +63,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isDecimal: {
+          args: true,
           msg: "Latitude must be a number"
         },
         min: {
@@ -96,7 +97,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [5, 50]
+        // len: [5, 50]
+        is50OrLess(value) {
+          if (value.length >= 50 || value.length < 5) {
+            throw new ValidationError("Name must be between 5 or 50 characters")
+          }
+        }
       }
     },
     description: {
@@ -107,6 +113,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
       validate: {
+        min: 0,
         isDecimal: {
           msg: "Latitude must be a number"
         },

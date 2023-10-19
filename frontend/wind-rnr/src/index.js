@@ -16,11 +16,11 @@ const Root = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
+
         <App />
       </BrowserRouter>
     </Provider>
   );
-}
 
 ReactDOM.render(
   <React.StrictMode>

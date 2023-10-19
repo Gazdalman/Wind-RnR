@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const { User, Spot, SpotImage, Review, ReviewImage, Booking } = require('../../db/models');
-const { userOwns, spotExists, queryCheck } = require('../../utils/errors')
-const { Op } = require('sequelize')
+const { userOwns, spotExists, queryCheck, doesNotOwn, alreadyReviewed } = require('../../utils/errors')
 const validators = require('../../utils/instances');
 const paginationCheck = require('../../utils/pagination');
 const { requireAuth } = require('../../utils/auth');
@@ -14,6 +13,7 @@ const commonErrs = [
 // Get all spots from the Server
 router.get('/', queryCheck, paginationCheck, async (req, res) => {
   const { where, pag } = req;
+  const { page, size } = req;
   const spots = await Spot.findAll({
     where,
     order: [['id']],
@@ -35,7 +35,7 @@ router.get('/', queryCheck, paginationCheck, async (req, res) => {
       }
     })
 
-    spot.avgRating = sum / total;
+    spot.avgRating = total ? size / total : 0;
 
     const previewImg = await SpotImage.findOne({
       where: {
@@ -52,7 +52,9 @@ router.get('/', queryCheck, paginationCheck, async (req, res) => {
   }
 
   res.json({
-    Spots: spotsJSON
+    Spots: spotsJSON,
+    page: parseInt(page),
+    size: parseInt(size)
   });
 });
 
@@ -105,7 +107,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
 
 // Get all reviews by spot id
-router.get('/:spotId/reviews', async (req, res) => {
+router.get('/:spotId/reviews', spotExists, async (req, res) => {
   const { spotId } = req.params;
 
 
@@ -134,7 +136,8 @@ router.get('/:spotId/reviews', async (req, res) => {
 
   }
 
-  res.json(allReviews)
+  res.json({
+    Reviews: allReviews})
 });
 
 // Get all bookings for a spot
@@ -201,7 +204,7 @@ router.get('/:spotId', spotExists, async (req, res) => {
 });
 
 // Create a booking for a spot
-router.post('/:spotId/bookings', commonErrs, validators.checkDates, async (req, res) => {
+router.post('/:spotId/bookings', commonErrs, doesNotOwn, validators.checkDates, async (req, res) => {
   const { spotId } = req.params;
   const { id } = req.user;
   let { startDate, endDate } = req.body;
@@ -221,7 +224,7 @@ router.post('/:spotId/bookings', commonErrs, validators.checkDates, async (req, 
 })
 
 // Create a review for a spot
-router.post('/:spotId/reviews', commonErrs, async (req, res) => {
+router.post('/:spotId/reviews', commonErrs, doesNotOwn, alreadyReviewed, validators.validateReview, async (req, res) => {
   const { user } = req;
   const { spotId } = req.params;
   const { review, stars } = req.body;
@@ -239,7 +242,6 @@ router.post('/:spotId/reviews', commonErrs, async (req, res) => {
 
 // Add an image to an owned spot based on id
 router.post('/:spotId/images', commonErrs, userOwns, validators.validateSpotImage, async (req, res) => {
-  const { user } = req;
   const { spotId } = req.params;
   const { url, preview } = req.body
 

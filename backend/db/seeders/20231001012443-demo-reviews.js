@@ -32,6 +32,18 @@ const demoReviews = [
     review: "Surprised Asta and Mr. Golden Dawn came from here.",
     stars: 4
   },
+  {
+    spotId: 3,
+    userId: 5,
+    review: "This place is just as shabby as those Black Bulls bwa-ha.",
+    stars: 1
+  },
+  {
+    spotId: 3,
+    userId: 6,
+    review: "I've made so many friends here! I mean they should be honored!",
+    stars: 4
+  },
 ]
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {

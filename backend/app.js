@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const routes = require('./routes');
 const { ValidationError } = require('sequelize');
+const { handleValidationErrors } = require('./utils/validation');
 
 const { environment } = require('./config');
 const isProduction = environment === 'production;'
@@ -49,13 +50,17 @@ app.use((_req, _res, next) => {
   next(err);
 });
 
+// app.use(handleValidationErrors)
+
 app.use((err, _req, _res, next) => {
   if (err instanceof ValidationError) {
     let errors = {};
     for (let error of err.errors) {
-      errors[errors.path] = error.message;
+      errors[error.path] = error.message;
     }
-    err.status= 400
+
+    if (err.message.includes("unique")) err.status = 500
+    else err.status = 400
     err.title = 'Validation error';
     err.errors = errors;
   }
@@ -63,10 +68,11 @@ app.use((err, _req, _res, next) => {
 });
 
 app.use((err, _req, res, _next) => {
+
   res.status(err.status || 500);
-  console.error(err);
+  console.error(err, err.status);
   let message;
-  let errors
+  let errors;
   let title;
   if (err.message) message = err.message
   if (err.errors) errors = err.errors
