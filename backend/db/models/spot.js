@@ -100,7 +100,7 @@ module.exports = (sequelize, DataTypes) => {
         // len: [5, 50]
         is50OrLess(value) {
           if (value.length >= 50 || value.length < 5) {
-            throw new Error("Name must be between 5 or 50 characters")
+            throw new ValidationError("Name must be between 5 or 50 characters")
           }
         }
       }

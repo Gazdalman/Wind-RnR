@@ -35,7 +35,7 @@ router.get('/', queryCheck, paginationCheck, async (req, res) => {
       }
     })
 
-    spot.avgRating = sum / total;
+    spot.avgRating = total ? size / total : 0;
 
     const previewImg = await SpotImage.findOne({
       where: {
