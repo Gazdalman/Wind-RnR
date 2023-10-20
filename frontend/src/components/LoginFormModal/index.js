@@ -47,9 +47,11 @@ function LoginFormModal() {
           />
         </label>
         {errors.message && (
-          <p>{errors.message}</p>
+          <p>Provided credentials are incorrect.</p>
         )}
-        <button type="submit">Log In</button>
+        <button
+        disabled={credential.length < 4 && password.length < 6}
+        type="submit">Log In</button>
       </form>
     </>
   );
