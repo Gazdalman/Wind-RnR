@@ -22,7 +22,7 @@ const validateLogin = [
 
 // Login
 router.post('/', validateLogin, async (req, res, next) => {
-  const { credential, password } = req.body;
+  const { credential, password, addDates } = req.body;
 
   const user = await User.unscoped().findOne({
     where: {
@@ -48,6 +48,11 @@ router.post('/', validateLogin, async (req, res, next) => {
     username: user.username,
   };
 
+  if (addDates) {
+    safeUser.createdAt = user.createdAt;
+    safeUser.updatedAt = user.updatedAt;
+  };
+
   await setTokenCookie(res, safeUser);
 
   return res.json({
@@ -64,7 +69,7 @@ router.delete('/', (_req, res) => {
 // Restore User session ( Get current User )
 router.get('/', (req, res) => {
   const { user } = req;
-  if (user) {
+  if (user ) {
     const safeUser = {
       id: user.id,
       firstName: user.firstName,
