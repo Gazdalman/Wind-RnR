@@ -69,7 +69,7 @@ router.get('/this-is-not', async(req,res) => {
 
 // Sign-up Route Handler
 router.post('/', validateSignup, async (req, res) => {
-  const { email, password, username, firstName, lastName } = req.body;
+  const { email, password, username, firstName, lastName, addDates } = req.body;
   const hashedPassword = bcrypt.hashSync(password);
   let newLN;
 
@@ -86,6 +86,12 @@ router.post('/', validateSignup, async (req, res) => {
     lastName: user.lastName,
     username: user.username,
   };
+
+  if (addDates) {
+    const {createdAt, updatedAt} = await User.unscoped().findByPk(user.id);
+    safeUser.createdAt = createdAt;
+    safeUser.updatedAt = updatedAt;
+  }
 
   await setTokenCookie(res, safeUser);
 

@@ -26,7 +26,6 @@ export const setUserThunk = (payload) => async dispatch => {
       password,
       addDates: true
     })
-    // payload
   })
 
   if (res.ok) {
@@ -35,7 +34,41 @@ export const setUserThunk = (payload) => async dispatch => {
     dispatch(setUser(user));
     return user;
   }
+  return res.json()
+};
 
+export const restoreUser = () => async dispatch => {
+  const res = await csrfFetch('/api/session');
+
+  if (res.ok) {
+    const user = await res.json();
+    dispatch(setUser(user));
+    return res;
+  }
+}
+
+export const signUpUser = (payload) => async dispatch => {
+  const res = await csrfFetch('/api/users', {
+    method: 'POST',
+    body: JSON.stringify({
+      ...payload,
+      addDates: true
+    })
+  })
+
+  if (res.ok) {
+   const user = res.json();
+   dispatch(setUser(user));
+   return user;
+  }
+}
+
+export const logout = () => async (dispatch) => {
+  const response = await csrfFetch('/api/session', {
+    method: 'DELETE',
+  });
+  dispatch(unsetUser());
+  return response;
 };
 
 const initialState = {user: null}
