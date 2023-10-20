@@ -30,7 +30,6 @@ export const setUserThunk = (payload) => async dispatch => {
 
   if (res.ok) {
     const user = await res.json();
-    console.log(user);
     dispatch(setUser(user));
     return user;
   }
