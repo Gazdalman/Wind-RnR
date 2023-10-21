@@ -10,3 +10,22 @@
 li.modal:hover {
   cursor: pointer
 }
+
+nav {
+  border-bottom: grey 1px solid;
+  width: 100%;
+  position: fixed;
+  top: 0px;
+  background-color: white;
+  padding-top: 0;
+  height: 70px
+}
+
+.app-div {
+  padding-top: 104px;
+}
+
+html {
+  /* background: rgb(92, 91, 91); */
+  color: rgb(245, 87, 87);
+}

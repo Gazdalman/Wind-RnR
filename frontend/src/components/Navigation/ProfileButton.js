@@ -42,14 +42,13 @@ function ProfileButton({ user }) {
   return (
     <>
       <button className="profile-button" onClick={openMenu}>
-        <i className="fa-solid fa-bars"  style={{fontSize: "20px"}}/>
-        <i className="fas fa-user-circle" style={{fontSize: "20px"}}/>
+        <i className="fa-solid fa-bars"  style={{fontSize: "15px"}}/>
+        <i className="fas fa-user-circle" style={{fontSize: "15px"}}/>
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <div className="user-info">
             <li>Hello, {user.firstName}</li>
-            <li>{user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
             <li className='modal' onClick={logout}>Log Out</li>
           </div>

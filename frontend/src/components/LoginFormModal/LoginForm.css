@@ -1,8 +1,3 @@
-html {
-  background: rgb(92, 91, 91);
-  color: rgb(245, 87, 87);
-
-}
 
 .login-page {
   background-color: rgb(39, 39, 39);
@@ -14,7 +9,7 @@ html {
   width: 50%;
   height: 400px;
   justify-content: center;
-
+  /* position: absolute; */
 }
 
 h1 {

@@ -4,23 +4,90 @@
   align-items: center;
   text-decoration: none;
   list-style: none;
+  padding: 0px;
 }
 
+.fa-wind {
+  font-size: 35px;
+  position: relative;
+  top: -10px;
+}
+
+.logo {
+  padding: 0px;
+  color: rgb(245, 87, 87)
+}
+
+.logo-name {
+  font-size: 25px;
+}
 
 .profile-button {
-  width: 65px;
-  height: 35px;
+  position: relative;
+  top: -20px;
+  width: 75px;
+  height: 40px;
   border-radius: 20px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   margin-bottom: 25%;
+  right: 20px;
 }
 
+.profile-button>i {
+  font-size: x-small;
+}
 
+.profile-button:hover {
+  cursor: pointer
+}
 
 .pb-li {
   /* background-color: aqua; */
   display: flex;
   /* align-items: ; */
+}
+
+.profile-dropdown {
+  background-color: white;
+  border: 1px rgb(220, 220, 220) solid;
+  border-radius: 5px;
+  position: absolute;
+  right: 50px;
+  top: 65px;
+  list-style: none;
+  width: fit-content;
+  padding-left: 0px;
+  text-align: center;
+}
+
+.login-signup {
+  width: 100px;
+}
+
+.login-signup > * {
+  padding: 5px 0px;
+  border-bottom: .5px rgb(220, 220, 220) solid;
+}
+
+.user-info {
+  width: 150px;
+
+}
+
+.modal {
+  background-color: rgb(245, 87, 87);
+  color: white;
+  width: fit-content;
+  padding: 5px 5px;
+  border: .5px rgb(0, 0, 0) solid;
+  border-radius: 15px;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.modal:hover {
+  background-color: rgb(149, 37, 37);
 }

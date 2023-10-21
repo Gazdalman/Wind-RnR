@@ -4,14 +4,16 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
 
-function Navigation({ isLoaded }){
+function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
   return (
     <ul className='nav-links'>
       <li>
         <NavLink exact to="/">
-        <i className="fa-solid fa-wind fa-2xl logo"/>
+          <i className="fa-solid fa-wind fa-xs logo">
+            <span className='logo-name'>Wind RnR</span>
+          </i>
         </NavLink>
       </li>
       {isLoaded && (

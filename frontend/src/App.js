@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import Logo from "./components/Logo/Logo";
-
+import SpotsIndex from "./components/SpotsIndex";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -16,17 +16,18 @@ const App = () => {
   return (
     <div>
       <nav>
-        <Navigation isLoaded={isLoaded}/>
+        <Navigation isLoaded={isLoaded} />
       </nav>
-     { isLoaded && (
-      <Switch>
-        <Route exact path="/">
-          <SpotsIndex />
-        </Route>
-      </Switch>
-    )}
+      <div className="app-div">
+        {isLoaded && (
+          <Switch>
+            <Route exact path="/">
+              <SpotsIndex />
+            </Route>
+          </Switch>
+        )}
+      </div>
     </div>
-
   );
 }
 
