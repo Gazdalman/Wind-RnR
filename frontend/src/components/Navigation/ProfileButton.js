@@ -41,19 +41,20 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
+      <button className="profile-button" onClick={openMenu}>
+        <i className="fa-solid fa-bars"  style={{fontSize: "20px"}}/>
+        <i className="fas fa-user-circle" style={{fontSize: "20px"}}/>
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
-          <>
-            <li>{user.username}</li>
+          <div className="user-info">
+            <li>Hello, {user.firstName}</li>
             <li>{user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
             <li className='modal' onClick={logout}>Log Out</li>
-          </>
+          </div>
         ) : (
-          <>
+          <div className="login-signup">
             <OpenModalMenuItem
               itemText="Log In"
               onItemClick={closeMenu}
@@ -64,7 +65,7 @@ function ProfileButton({ user }) {
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
             />
-          </>
+          </div>
         )}
       </ul>
     </>

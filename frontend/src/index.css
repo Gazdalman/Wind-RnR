@@ -7,6 +7,6 @@
   width: fit-content
 }
 
-.profile-dropdown > .modal:hover {
+li.modal:hover {
   cursor: pointer
 }

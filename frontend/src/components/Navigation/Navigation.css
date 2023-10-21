@@ -1,0 +1,26 @@
+.nav-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  list-style: none;
+}
+
+
+.profile-button {
+  width: 65px;
+  height: 35px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 25%;
+}
+
+
+
+.pb-li {
+  /* background-color: aqua; */
+  display: flex;
+  /* align-items: ; */
+}
