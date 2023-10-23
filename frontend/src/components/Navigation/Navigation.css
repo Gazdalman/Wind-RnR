@@ -5,6 +5,7 @@
   text-decoration: none;
   list-style: none;
   padding: 0px;
+  z-index: 10000;
 }
 
 .fa-wind {
@@ -40,7 +41,9 @@
 }
 
 .profile-button:hover {
-  cursor: pointer
+  cursor: pointer;
+  background-color: rgb(245, 87, 87);
+  color: white;
 }
 
 .pb-li {
@@ -79,7 +82,7 @@
 .modal {
   background-color: rgb(245, 87, 87);
   color: white;
-  width: fit-content;
+  width: 65px;
   padding: 5px 5px;
   border: .5px rgb(0, 0, 0) solid;
   border-radius: 15px;
@@ -90,4 +93,20 @@
 
 .modal:hover {
   background-color: rgb(149, 37, 37);
+}
+
+.spots-link {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-top: solid 1px rgb(220,220,220);
+  border-bottom: solid 1px rgb(220,220,220);
+  border-top-width: 75%;
+  border-bottom-width: 75%;
+}
+
+.spots-link > * {
+  color: rgb(245, 87, 87);
+  text-decoration: none;
 }

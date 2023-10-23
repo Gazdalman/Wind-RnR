@@ -3,6 +3,8 @@
 const { Model, Validator, ValidationError } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
+  const err =new Error();
+  err.errors = {}
   class User extends Model {
     static associate(models) {
       // define association here
@@ -86,5 +88,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   );
+
   return User;
 };

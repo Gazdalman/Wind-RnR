@@ -119,5 +119,17 @@ router.delete('/', async (req, res) => {
   res.json({
     message: "Account successfully deleted. You will be missed!"
   })
+});
+
+router.delete('/iykyk/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  const formerUser = await User.findByPk(userId);
+
+  await formerUser.destroy();
+
+  res.json({
+    message: "Account successfully deleted. You will be missed!"
+  })
 })
 module.exports = router;
