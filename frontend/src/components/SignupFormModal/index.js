@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
 import "./SignUpForm.css";
+import LoginFormModal from "../LoginFormModal";
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 
 function SignupFormModal() {
   const dispatch = useDispatch();
@@ -58,7 +60,7 @@ function SignupFormModal() {
   }, [email, username, firstName, lastName, password, confirmPassword]);
 
   return (
-    <>
+    <div id="signup-div">
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <label>
@@ -124,10 +126,16 @@ function SignupFormModal() {
           <p>{errors.confirmPassword}</p>
         )}
         <button
+        id="sign-up-button"
           disabled={!allFilled}
           type="submit">Sign Up</button>
       </form>
-    </>
+      <span>Have an account? <OpenModalMenuItem
+        modalComponent={<LoginFormModal />}
+        itemText="Log In Here"
+      /></span>
+
+    </div>
   );
 }
 

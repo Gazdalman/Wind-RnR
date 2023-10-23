@@ -35,7 +35,7 @@ const demoImages = [
   },
   {
     spotId: 3,
-    url: "https://static.wikia.nocookie.net/blackclover/images/c/c6/Black_Bull_Base.png/revision/latest?cb=20180424193722",
+    url: "https://pbs.twimg.com/media/DNNQxSkVQAA1hpM.jpg",
     preview: true
   },
 ]

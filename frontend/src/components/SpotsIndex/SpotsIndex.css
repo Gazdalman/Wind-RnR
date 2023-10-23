@@ -1,6 +1,7 @@
 .spot-image {
   height: 225px;
   width: 225px;
+  border-radius: 10px;
 }
 
 .image-container {

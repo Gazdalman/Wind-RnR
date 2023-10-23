@@ -1,16 +1,4 @@
 
-.login-page {
-  background-color: rgb(39, 39, 39);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: auto;
-  margin-top: 100px;
-  width: 50%;
-  height: 400px;
-  justify-content: center;
-  /* position: absolute; */
-}
 
 h1 {
   width: fit-content;
@@ -38,4 +26,58 @@ input {
 button {
   margin-top: 20px;
   border-radius: 5px
+}
+
+.login-div {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.login-div > .modal {
+  width: fit-content;
+  list-style-type: none;
+  border: none;
+}
+
+#demo-user-button {
+  width: 131px;
+  height: 28px;
+  background-color: rgb(245, 87, 87);
+  color: white;
+  padding: 5px 5px;
+  border: none;
+  border-radius: 15px;
+  margin: auto;
+  margin-top: 15px;
+  margin-bottom: 0px;
+}
+
+#demo-user-button:hover {
+  cursor: pointer;
+  background-color: rgb(149, 37, 37);
+}
+
+#log-in-button {
+  width: 131px;
+  height: 28px;
+  background-color: rgb(245, 87, 87);
+  color: white;
+  padding: 5px 5px;
+  border: none;
+  border-radius: 15px;
+  margin: auto;
+  margin-top: 15px;
+  margin-bottom:0px;
+}
+
+#log-in-button:hover {
+  cursor: pointer;
+  background-color: rgb(149, 37, 37);
+}
+
+#log-in-button:disabled {
+  cursor: unset;
+  background-color: white;
+  color: grey;
 }

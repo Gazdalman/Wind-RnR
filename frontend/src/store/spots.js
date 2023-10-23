@@ -41,8 +41,8 @@ export const getOneSpot = (spotId) => async dispatch => {
     dispatch(getOne(spot));
     return spot;
   }
-
-  return res;
+ const bad = await res.json();
+  return null;
 };
 
 export const getAllSpots = () => async dispatch => {
@@ -56,8 +56,7 @@ export const getAllSpots = () => async dispatch => {
 }
 
 let newState
-let allSpots;
-
+let allSpots
 const spotsReducer = (state = {}, action) => {
   switch (action.type) {
     case POPULATE_SPOTS:
