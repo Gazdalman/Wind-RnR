@@ -188,7 +188,7 @@ router.get('/:spotId', spotExists, async (req, res) => {
 
   spotObj.numReviews = ratings
 
-  spotObj.avgRating = total / ratings
+  spotObj.avgRating = (total / ratings).toFixed(1)
 
   spotObj.SpotImages = await spot.getSpotImages();
 
