@@ -56,6 +56,7 @@ export const getAllSpots = () => async dispatch => {
 }
 
 let newState
+let allSpots;
 
 const spotsReducer = (state = {}, action) => {
   switch (action.type) {
@@ -64,7 +65,7 @@ const spotsReducer = (state = {}, action) => {
       action.spots.Spots.forEach(spot => {
         newState[spot.id] = spot;
       });
-
+      allSpots = {...newState}
       return newState;
 
     case GET_ONE:
