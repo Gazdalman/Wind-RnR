@@ -35,7 +35,8 @@ router.get('/', queryCheck, paginationCheck, async (req, res) => {
       }
     })
 
-    spot.avgRating = total ? sum / total : 0;
+    const avg = total ?  (sum / total).toFixed(1) : 0;
+    spot.avgRating = avg
 
     const previewImg = await SpotImage.findOne({
       where: {
@@ -89,7 +90,8 @@ router.get('/current', requireAuth, async (req, res) => {
       }
     });
 
-    spot.avgRating = total / ratings
+    const avg = `${total / ratings}`
+    spot.avgRating = avg.includes('.') ? avg : `${avg}.0`
     const images = await SpotImage.findAll({
       where: {
         spotId: spotId,
@@ -122,7 +124,8 @@ router.get('/:spotId/reviews', spotExists, async (req, res) => {
     {
       model: ReviewImage,
       attributes: ['id', 'url']
-    }]
+    }],
+    order: [['createdAt']]
   });
 
   const allReviews = [];

@@ -5,7 +5,11 @@ import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import SignupFormModal from "../SignupFormModal";
+import { useHistory } from "react-router-dom";
+
+
 function LoginFormModal() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
@@ -21,11 +25,14 @@ function LoginFormModal() {
     e.preventDefault();
     setErrors({});
     return dispatch(sessionActions.setUserThunk({ credential, password }))
-      .then(closeModal)
+      .then(() => {
+        history.push("/")
+        closeModal()
+      })
       .catch(async (res) => {
         const data = await res.json();
         if (data) {
-          setErrors({ ...data });
+          setErrors( {...data});
         }
       });
   };

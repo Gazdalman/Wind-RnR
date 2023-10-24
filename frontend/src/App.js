@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
-import Logo from "./components/Logo/Logo";
 import SpotsIndex from "./components/SpotsIndex";
 import SpotShow from "./components/SpotShow/SpotShow";
 
