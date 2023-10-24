@@ -10,8 +10,7 @@ const SpotsIndex = () => {
   const spotsArr = Object.values(spots)
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-console.log(spotsArr[1]);
-
+console.log(spots);
   const abbreviate = (state) => {
     const parts = state.split(" ");
     if (states[state]) return states[states];
@@ -41,7 +40,8 @@ console.log(spotsArr[1]);
         <div className="spot-card" key={spot.id}>
           <NavLink to={`/spots/${spot.id}`}>
             <div className="image-container">
-              <img className="spot-image" alt={`Spot ${spot.id}`} src={spot.previewImage} title={spot.name}/>
+              <img className="spot-image" src={spot.previewImage} />
+              <span class="image-tooltip">{spot.name}</span>
             </div>
             <div id="spot-info-upper">
               <span>{spot.city}, {`${abbreviate(spot.state)}`}</span>

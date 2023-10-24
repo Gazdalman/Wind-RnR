@@ -10,6 +10,20 @@
   cursor: pointer;
 }
 
+.image-tooltip {
+  position: absolute;
+  top: 50%;
+  left: 35%;
+  display: none;
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 1;
+}
+
 .image-container:hover .image-tooltip {
   display: block;
 }
