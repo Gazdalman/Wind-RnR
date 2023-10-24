@@ -11,7 +11,7 @@ const SpotShow = () => {
   const dispatch = useDispatch()
   const { spotId } = useParams();
   const spot = useSelector(state => state.spots.requestedSpot)
-  console.log("spot", spot);
+
 
   useEffect(() => {
     dispatch(getOneSpot(spotId))

@@ -10,7 +10,7 @@ const SpotsIndex = () => {
   const spotsArr = Object.values(spots)
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-console.log(spots);
+
   const abbreviate = (state) => {
     const parts = state.split(" ");
     if (states[state]) return states[states];

@@ -5,7 +5,6 @@ import { getSpotReviews } from "../../store/reviews";
 const ReviewArea = ({ spot }) => {
   const reviews = useSelector(state => state.reviews)
   const user = useSelector(state => state.session);
-  console.log(user);
   const numReviews = [...Object.values(reviews)].length
   const dispatch = useDispatch();
   let sortedReviews;
