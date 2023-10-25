@@ -42,9 +42,16 @@ function ProfileButton({ user }) {
 
   return (
     <>
+      {user &&
+        <span id="create-spot-link">
+          <NavLink to="/spots/create">
+            Create New Spot
+          </NavLink>
+        </span>}
+
       <button className="profile-button" onClick={openMenu}>
-        <i className="fa-solid fa-bars"  style={{fontSize: "15px"}}/>
-        <i className="fas fa-user-circle" style={{fontSize: "15px"}}/>
+        <i className="fa-solid fa-bars" style={{ fontSize: "15px" }} />
+        <i className="fas fa-user-circle" style={{ fontSize: "15px" }} />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
@@ -53,7 +60,7 @@ function ProfileButton({ user }) {
             <li>{user.email}</li>
             <li className="spots-link" >
               <NavLink to='/spots/current'>Manage Spots</NavLink>
-              </li>
+            </li>
             <li className='modal' onClick={logout}>Log Out</li>
           </div>
         ) : (

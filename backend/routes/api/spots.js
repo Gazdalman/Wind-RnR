@@ -193,7 +193,9 @@ router.get('/:spotId', spotExists, async (req, res) => {
 
   spotObj.avgRating = (total / ratings).toFixed(1)
 
-  spotObj.SpotImages = await spot.getSpotImages();
+  spotObj.SpotImages = await spot.getSpotImages({
+    order: [['preview', 'DESC']]
+  });
 
   spotObj.Owner = await spot.getOwner({
     attributes: {
@@ -313,6 +315,32 @@ router.put('/:spotId', commonErrs, userOwns, validators.validateSpot, async (req
   res.json(spot);
 });
 
+//Edit a spots images
+router.put('/:spotId/images', commonErrs, userOwns, async(req,res) => {
+  const {spotId} = req.params
+  const {images} = req.body
+  const spot = await Spot.findByPk(spotId)
+  const spotImages = await SpotImage.findAll({
+    where: {
+      spotId
+    }
+  });
+
+  spotImages.forEach(async image => {
+    await image.destroy()
+  })
+
+  images.forEach(async img => {
+    await spot.createSpotImage(img)
+  })
+
+  const allImages = await SpotImage.findAll({
+    where: {
+      spotId
+    }
+  })
+  res.json(allImages)
+})
 // Delete a Spot
 router.delete('/:spotId', commonErrs, userOwns, async (req, res) => {
   const { spotId } = req.params;

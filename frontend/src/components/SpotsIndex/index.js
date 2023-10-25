@@ -40,8 +40,8 @@ const SpotsIndex = () => {
         <div className="spot-card" key={spot.id}>
           <NavLink to={`/spots/${spot.id}`}>
             <div className="image-container">
-              <img className="spot-image" src={spot.previewImage} />
-              <span class="image-tooltip">{spot.name}</span>
+              <img className="spot-image" alt={spot.name} src={spot.previewImage} />
+              <span className="image-tooltip">{spot.name}</span>
             </div>
             <div id="spot-info-upper">
               <span>{spot.city}, {`${abbreviate(spot.state)}`}</span>

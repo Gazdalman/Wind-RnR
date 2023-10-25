@@ -49,6 +49,7 @@
 .pb-li {
   /* background-color: aqua; */
   display: flex;
+  height: 53px;
   /* align-items: ; */
 }
 
@@ -109,4 +110,20 @@
 .spots-link > * {
   color: rgb(245, 87, 87);
   text-decoration: none;
+}
+
+#create-spot-link {
+  position:relative;
+  top: 14px;
+  right: 30px;
+}
+
+#create-spot-link > * {
+  text-decoration: none;
+}
+
+#create-spot-link > *:hover{
+  text-decoration: underline;
+  font-weight: bold;
+  color: rgb(245, 87, 87)
 }

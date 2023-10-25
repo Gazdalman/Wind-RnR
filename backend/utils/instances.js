@@ -20,16 +20,16 @@ const validators = {
     check("country")
       .exists({ checkFalsy: true })
       .withMessage("Country is required"),
-    check("lat")
-      .exists({ checkFalsy: true })
-      .withMessage("Latitude is not valid")
-      .isFloat({ min: -90, max: 90 })
-      .withMessage("Latitude must be between -90 and 90"),
-    check("lng")
-      .exists({ checkFalsy: true })
-      .withMessage("Longitude is not valid")
-      .isFloat({ min: -180, max: 180 })
-      .withMessage("Longitude must be a valid number between -180 and 180"),
+    // check("lat")
+    //   .exists({ checkFalsy: true })
+    //   .withMessage("Latitude is not valid")
+    //   .isFloat({ min: -90, max: 90 })
+    //   .withMessage("Latitude must be between -90 and 90"),
+    // check("lng")
+    //   .exists({ checkFalsy: true })
+    //   .withMessage("Longitude is not valid")
+    //   .isFloat({ min: -180, max: 180 })
+    //   .withMessage("Longitude must be a valid number between -180 and 180"),
     check("name")
       .exists({ checkFalsy: true })
       .isLength({ min: 5, max: 50 })

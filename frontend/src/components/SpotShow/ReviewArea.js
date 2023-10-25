@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSpotReviews } from "../../store/reviews";
 
 const ReviewArea = ({ spot }) => {
-  const reviews = useSelector(state => state.reviews)
-  const user = useSelector(state => state.session);
-  const numReviews = [...Object.values(reviews)].length
+  const reviews = useSelector(state => state.reviews);
+  const user = useSelector(state => state.session.user);
+  const numReviews = [...Object.values(reviews)].length;
   const dispatch = useDispatch();
+
   let sortedReviews;
 
   const setDate = (date) => {
@@ -33,7 +34,7 @@ const ReviewArea = ({ spot }) => {
         <i className="fa-solid fa-clover">
         <span>{spot.avgRating}</span></i>
         </span>
-        <span><i className="fa-solid fa-diamond fa-2xs separator"/><span>{numReviews}</span></span>
+        <span><i className="fa-solid fa-diamond fa-2xs separator"/><span>{numReviews} {numReviews > 1 ? 'Reviews' : "Review"}</span></span>
       </div>
       {sortedReviews.map(review => (
         <div key={review.id} className="review">
@@ -45,7 +46,10 @@ const ReviewArea = ({ spot }) => {
       ))}
     </div>
   ) : (
-    <h2>Be the first to review</h2>
+    <>
+    {(!user || user.id === spot.ownerId) ?
+    <h2>No reviews... yet!</h2> : <h2>Be the first to review this spot!</h2>}
+    </>
   )
 }
 

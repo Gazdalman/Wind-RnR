@@ -67,11 +67,11 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Latitude must be a number"
         },
         min: {
-          args: -90,
+          args: "-90",
           msg: "Minimum latitude exceeded"
         },
         max: {
-          args: 90,
+          args: "90",
           msg: "Maximum latitude exceeded"
         }
       }
