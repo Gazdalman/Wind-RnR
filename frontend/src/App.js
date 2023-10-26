@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation";
 import SpotsIndex from "./components/SpotsIndex";
 import SpotShow from "./components/SpotShow/SpotShow";
 import CreateOrEditSpotForm from "./components/CreateSpotForm";
+import ManageSpots from "./components/ManageSpots/ManageSpots";
 import { getAllSpots } from "./store/spots";
 import NotFoundForm from "./components/notFoundForm/notFoundForm";
 import EditSpot from "./components/EditSpot.js";
@@ -28,6 +29,9 @@ const App = () => {
           <Switch>
             <Route exact path="/">
               <SpotsIndex />
+            </Route>
+            <Route path="/spots/current">
+              <ManageSpots />
             </Route>
             <Route path="/spots/create">
               <CreateOrEditSpotForm type={"create"}/>

@@ -72,6 +72,7 @@ function LoginFormModal() {
           onClick={signInDemoUser}>Demo User</button>
       </form>
       <OpenModalMenuItem
+      name="banana"
         modalComponent={<SignupFormModal />}
         itemText="... or Sign Up Here"
       />

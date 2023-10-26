@@ -127,3 +127,7 @@
   font-weight: bold;
   color: rgb(245, 87, 87)
 }
+
+.login-div > *[name="banana"] {
+  width: 600px
+}

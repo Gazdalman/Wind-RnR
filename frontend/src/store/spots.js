@@ -119,6 +119,17 @@ export const addImages = (spotId, images) => async dispatch => {
   return null
 }
 
+export const deleteSpotThunk = (spotId, userId) => async dispatch => {
+  const res = await csrfFetch(`/api/spots/${spotId}`, {
+    method: "DELETE",
+    user: {
+      id: userId
+    }
+  });
+  dispatch(deleteSpot(spotId))
+  return res
+}
+
 let newState
 // let allSpots
 const spotsReducer = (state = {}, action) => {
@@ -141,6 +152,12 @@ const spotsReducer = (state = {}, action) => {
 
     case ADD_IMAGES:
       return { ...state }
+
+    case DELETE_SPOT:
+      newState = { ...state }
+      delete newState[action.spotId]
+      return newState
+
     default:
       return state
   }
