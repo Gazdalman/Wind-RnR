@@ -5,6 +5,7 @@ import OpenModalButton from "../OpenModalButton";
 import ReviewCreateEditForm from "../ReviewCreateEditForm/ReviewCreateEditForm";
 import { useState } from "react";
 import DeleteModal from "../ManageSpots/deleteModal";
+import { getOneSpot } from "../../store/spots";
 
 const ReviewArea = ({ spot }) => {
   const [userReviewed, setUserReviewed] = useState(false)
@@ -22,6 +23,7 @@ const ReviewArea = ({ spot }) => {
   }
 
   useEffect(() => {
+   console.log("I ran");
     dispatch(getSpotReviews(spot.id))
   }, [dispatch, spot.id])
 
@@ -31,6 +33,10 @@ const ReviewArea = ({ spot }) => {
       if (userReview[0]) setUserReviewed(true);
     }
   }, [reviews, user])
+
+  useEffect(() => {
+    console.log("I ran too");
+  }, [userReviewed])
   if (numReviews > 0) {
     const compareByDate = (a, b) => {
       return new Date(b.createdAt) - new Date(a.createdAt);
@@ -38,7 +44,6 @@ const ReviewArea = ({ spot }) => {
 
     sortedReviews = Object.values(reviews).sort(compareByDate);
   }
-
   return numReviews > 0 ? (
     <div>
       <div className="review-area-header">
@@ -51,7 +56,7 @@ const ReviewArea = ({ spot }) => {
       <div className="post-button">
         {(user && user.id !== spot.ownerId && !userReviewed) &&
           <OpenModalButton
-          modalClasses={["review-form-button"]}
+            modalClasses={["review-form-button"]}
             modalComponent={<ReviewCreateEditForm spot={spot} />}
             buttonText={"Post a Review"}
           />}
@@ -62,11 +67,16 @@ const ReviewArea = ({ spot }) => {
           <h4>{setDate(review.createdAt)}</h4>
           <p>{review.review}</p>
           {user ? (user.id === review.userId || user.username === "TheManager") && <div className="review-buttons">
-          <OpenModalButton
-          modalClasses={["review-delete-button"]}
-            modalComponent={<DeleteModal type={"review"} review={review}/>}
-            buttonText={"Delete"}
-          />
+            <OpenModalButton
+              onButtonClick={() => dispatch(getSpotReviews(spot.id))}
+              modalClasses={["review-delete-button"]}
+              modalComponent=
+              {<DeleteModal
+                method={setUserReviewed}
+                type={"review"}
+                review={review} />}
+              buttonText={"Delete"}
+            />
           </div> : null}
         </div>
 

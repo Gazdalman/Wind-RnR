@@ -1,12 +1,16 @@
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { deleteSpotThunk } from "../../store/spots";
-import { deleteSpotReview } from "../../store/reviews";
+import { deleteSpotThunk, getOneSpot } from "../../store/spots";
+import { deleteSpotReview, getSpotReviews } from "../../store/reviews";
 import "./DeleteModal.css"
+import { useHistory } from "react-router-dom";
+import { useEffect } from "react";
 
-const DeleteModal = ({ review, spot, type }) => {
+const DeleteModal = ({ method, review, spot, type }) => {
+  const history = useHistory()
   const dispatch = useDispatch();
   const { closeModal } = useModal();
+  const reviewSpotId = review ? review.spotId : null
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,6 +18,8 @@ const DeleteModal = ({ review, spot, type }) => {
       await dispatch(deleteSpotThunk(spot.id))
     } else {
       await dispatch(deleteSpotReview(review.id, review.spotId))
+      await dispatch(getSpotReviews(review.spotId))
+      method(false)
     }
     closeModal()
   }

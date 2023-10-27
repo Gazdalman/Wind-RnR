@@ -25,6 +25,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
   const [url4, setUrl4] = useState(type === "edit" && spot && spot.SpotImages[4] ? spot.SpotImages[4].url : "");
   const [errors, setErrors] = useState({});
 
+  console.log(spot);
   const notEmpty = (url) => {
     if (url === "https://www.ewingoutdoorsupply.com/media/catalog/product/placeholder/default/shutterstock_161251868.png") {
       return ""
@@ -76,18 +77,28 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
       }
     ];
     [url1, url2, url3, url4].forEach(url => {
+      let count = 1
+
       if (url) {
-        spotImgs.push({
-          url,
-          preview: false
-        })
+        if (
+          !url.includes("png") &&
+          !url.includes("jpg") &&
+          !url.includes("jpeg")
+        ) {
+          errors[`url${count}EndsWith`] = "Image URL must end in .png, .jpg, or .jpeg";
+        } else {
+          spotImgs.push({
+            url,
+            preview: false
+          })
+        }
       } else {
         spotImgs.push({
           url: "https://www.ewingoutdoorsupply.com/media/catalog/product/placeholder/default/shutterstock_161251868.png",
           preview: false,
         });
       }
-
+      count++
     })
 
 
@@ -103,10 +114,6 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
       name,
       price,
     };
-
-    if (type === "edit" && user.username === "TheManager") {
-      spotDetails.ownerId = spot.ownerId
-    }
 
     if (!previewImageUrl.length) {
       errors.previewImageUrl = "Preview image is required";
@@ -129,22 +136,20 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
     if (!state.length) errors.state = "State is required"
 
     if (lat === ""
-    || !(+lat)
-    || +lat > 90
-    || +lat < -90) errors.lat = "Latitude must be between -90 and 90";
+      || +lat === NaN
+      || +lat > 90
+      || +lat < -90) errors.lat = "Latitude must be between -90 and 90";
 
     if (lng === ""
-    || !(+lng)
-    || +lng > 180
-    || +lng < -180) errors.lng = "Longitude must be between -180 and 180";
+      || +lng === NaN
+      || +lng > 180
+      || +lng < -180) errors.lng = "Longitude must be between -180 and 180";
 
     if (description.length < 30) errors.description = "Description needs a minimum of 30 characters";
 
     if (!name.length) errors.name = "Name is required"
 
-    if (price < 0) errors.price = "Price is invalid";
-
-    if (!price) errors.price = "Price is required"
+    if (!price) errors.price = "Price is required";
 
     if (!Object.keys(errors).length) {
       if (type !== 'edit') {
@@ -157,6 +162,9 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
         }
       } else {
         // try {
+        if (user.username === "TheManager") {
+          spotDetails.ownerId = spot.ownerId
+        }
         await dispatch(editSpot(spotDetails, spot.id, spotImgs));
         history.push(`/spots/${spot.id}`);
         // } catch (e) {
@@ -248,7 +256,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
               </p>
             )}
             <input
-              type="decimal"
+              type="text"
               min="-90"
               max="90"
               placeholder="Latitude"
@@ -265,7 +273,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
               </p>
             )}
             <input
-              type="number"
+              type="test"
               min="-180"
               max="180"
               placeholder="Longitude"
@@ -288,11 +296,11 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
         )}
         <span id="spot-description-span">
           <textarea
-          id="spot-description-ces"
-          placeholder="Please write at least 30 characters"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+            id="spot-description-ces"
+            placeholder="Please write at least 30 characters"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
         </span>
 
 
@@ -334,7 +342,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
         )}
         <span id="price-span">
           <input
-            type="number"
+            type="text"
             placeholder="Price per night (USD)"
             min="0"
             value={checkPrice(price)}
