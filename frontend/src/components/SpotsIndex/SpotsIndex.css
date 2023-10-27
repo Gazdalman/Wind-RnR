@@ -81,11 +81,12 @@
 
 @media screen and (min-width: 1280px) {
   .spot-image {
-    height: 200px;
-    width: 200px;
+    height: 225px;
+    width: 225px;
     border-radius: 10px;
   }
   .spot-index {
     grid-template-columns: repeat(5, auto);
   }
+  
 }

@@ -120,7 +120,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
       errors.urlEndsWith = "Image URL must end in .png, .jpg, or .jpeg";
     }
 
-    if (!country.length) errors.country = "Country is required"
+    if (!country) errors.country = "Country is required"
 
     if (!address.length) errors.address = "Address is required"
 
@@ -128,9 +128,15 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
 
     if (!state.length) errors.state = "State is required"
 
-    if (lat === "") errors.lat = "Latitude is required";
+    if (lat === ""
+    || !(+lat)
+    || +lat > 90
+    || +lat < -90) errors.lat = "Latitude must be between -90 and 90";
 
-    if (lng === "") errors.lng = "Longitude is required"
+    if (lng === ""
+    || !(+lng)
+    || +lng > 180
+    || +lng < -180) errors.lng = "Longitude must be between -180 and 180";
 
     if (description.length < 30) errors.description = "Description needs a minimum of 30 characters";
 
@@ -174,7 +180,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
         <div id="country">
           <p className="form-labels">Country</p>
           {errors.country && (
-            <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
+            <p style={{ fontSize: "13px", color: "red", margin: "5px 0 0 0" }}>
               **{errors.country}**
             </p>
           )}
@@ -189,7 +195,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
           <p className="form-labels">
             Street Address</p>
           {errors.address && (
-            <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
+            <p style={{ fontSize: "13px", color: "red", margin: "5px 0 0 0" }}>
               **{errors.address}**
             </p>
           )}
@@ -205,7 +211,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
             <p className="form-labels">
               City</p>
             {errors.city && (
-              <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
+              <p style={{ fontSize: "13px", color: "red", margin: "5px 0 0 0" }}>
                 **{errors.city}**
               </p>
             )}
@@ -220,7 +226,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
             <p className="form-labels">
               State</p>
             {errors.state && (
-              <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
+              <p style={{ fontSize: "13px", color: "red", margin: "5px 0 0 0" }}>
                 **{errors.state}**
               </p>
             )}
@@ -237,12 +243,12 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
             <p className="form-labels">
               Latitude</p>
             {errors.lat && (
-              <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
+              <p style={{ fontSize: "13px", color: "red", margin: "5px 0 0 0" }}>
                 **{errors.lat}**
               </p>
             )}
             <input
-              type="number"
+              type="decimal"
               min="-90"
               max="90"
               placeholder="Latitude"
@@ -254,7 +260,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
             <p className="form-labels">
               Longitude</p>
             {errors.lng && (
-              <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
+              <p style={{ fontSize: "13px", color: "red", margin: "5px 0 0 0" }}>
                 **{errors.lng}**
               </p>
             )}
@@ -276,7 +282,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
         </p>
         <br />
         {errors.description && (
-          <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
+          <p style={{ fontSize: "13px", color: "red", margin: "5px 0 0 0" }}>
             **{errors.description}**
           </p>
         )}
@@ -299,7 +305,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
         </p>
         <br />
         {errors.name && (
-          <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
+          <p style={{ fontSize: "13px", color: "red", margin: "5px 0 0 0" }}>
             **Name is required**
           </p>
         )}
@@ -322,7 +328,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
         </p>
         <br />
         {errors.price && (
-          <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
+          <p style={{ fontSize: "13px", color: "red", margin: "5px 0 0 0" }}>
             **{errors.price}**
           </p>
         )}
@@ -351,7 +357,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
           onChange={(e) => setPreviewImageUrl(e.target.value)}
         />
         {errors.previewImageUrl && (
-          <p style={{ fontSize: "12px", color: "red", margin: "0" }}>
+          <p style={{ fontSize: "13px", color: "red", margin: "0" }}>
             *{errors.previewImageUrl}
             *{errors.urlEndsWith}
           </p>
@@ -366,7 +372,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
           onChange={(e) => setUrl1(e.target.value)}
         />
         {(errors.urlEndsWith && url1) && (
-          <p style={{ fontSize: "12px", color: "red", margin: "0" }}>
+          <p style={{ fontSize: "13px", color: "red", margin: "0" }}>
             *{errors.urlEndsWith}
           </p>
         )}
@@ -380,7 +386,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
           onChange={(e) => setUrl2(e.target.value)}
         />
         {(errors.urlEndsWith && url2) && (
-          <p style={{ fontSize: "12px", color: "red", margin: "0" }}>
+          <p style={{ fontSize: "13px", color: "red", margin: "0" }}>
             *{errors.urlEndsWith}
           </p>
         )}
@@ -394,7 +400,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
           onChange={(e) => setUrl3(e.target.value)}
         />
         {(errors.urlEndsWith && url3) && (
-          <p style={{ fontSize: "12px", color: "red", margin: "0" }}>
+          <p style={{ fontSize: "13px", color: "red", margin: "0" }}>
             *{errors.urlEndsWith}
           </p>
         )}
@@ -408,7 +414,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
           onChange={(e) => setUrl4(e.target.value)}
         />
         {(errors.urlEndsWith && url4) && (
-          <p style={{ fontSize: "12px", color: "red", margin: "0" }}>
+          <p style={{ fontSize: "13px", color: "red", margin: "0" }}>
             *{errors.urlEndsWith}
           </p>
         )}
