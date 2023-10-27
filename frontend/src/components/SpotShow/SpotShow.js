@@ -10,6 +10,7 @@ const SpotShow = () => {
   const [previewImage, setPreviewImage] = useState({ url: "https://cdn.drawception.com/images/panels/2017/5-21/pKkCMdsbbp-1.png" });
   const [isLoaded, setIsLoaded] = useState(false);
   const [revAvg, setRevAvg] = useState(0);
+  const [numReviews, setNumReviews] = useState(0)
   const dispatch = useDispatch();
   const { spotId } = useParams();
   const spot = useSelector(state => state.spots.requestedSpot);
@@ -39,9 +40,9 @@ const SpotShow = () => {
       <h2 id="spot-owner">Hosted by {spot.Owner.firstName} {spot.Owner.lastName !== 'N/A' ? spot.Owner.lastName : ' '}</h2>
       <div id="spot-details-lower">
         <p id="spot-description">{spot.description}</p>
-        <CallOutBox avgRating={revAvg.toFixed(1)} spot={spot} />
+        <CallOutBox numReviews={numReviews} avgRating={revAvg.toFixed(1)} spot={spot} />
       </div>
-      <ReviewArea setRevAvg={setRevAvg} revAvg={revAvg} spot={spot} />
+      <ReviewArea setRevAvg={setRevAvg} numRevs={setNumReviews} revAvg={revAvg} spot={spot} />
     </div>
   ) : (
     <div className="not-found">

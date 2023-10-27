@@ -6,7 +6,7 @@ import ReviewCreateEditForm from "../ReviewCreateEditForm/ReviewCreateEditForm";
 import { useState } from "react";
 import DeleteModal from "../ManageSpots/deleteModal";
 
-const ReviewArea = ({ spot, setRevAvg, revAvg }) => {
+const ReviewArea = ({ spot, setRevAvg, revAvg, numRevs }) => {
   const [userReviewed, setUserReviewed] = useState(false);
   const revs = useSelector(state => state.reviews);
   const reviews = (revs && revs.length > 0 ? [...revs] : [])
@@ -15,6 +15,8 @@ const ReviewArea = ({ spot, setRevAvg, revAvg }) => {
   const dispatch = useDispatch();
 
   let sortedReviews;
+
+  numRevs(numReviews)
 
   const setDate = (date) => {
     const parts = Date(date).split(' ')
