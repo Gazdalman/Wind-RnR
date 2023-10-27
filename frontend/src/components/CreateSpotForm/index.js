@@ -104,6 +104,10 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
       price,
     };
 
+    if (type === "edit" && user.username === "TheManager") {
+      spotDetails.ownerId = spot.ownerId
+    }
+
     if (!previewImageUrl.length) {
       errors.previewImageUrl = "Preview image is required";
     }
