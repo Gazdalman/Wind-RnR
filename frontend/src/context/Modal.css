@@ -21,4 +21,12 @@
 #modal-content {
   position: absolute;
   background-color: white;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+}
+
+#delete-form-title {
+  width: 100%;
+  text-align: center;
 }

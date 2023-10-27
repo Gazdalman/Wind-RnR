@@ -20,7 +20,7 @@ const demoImages = [
   },
   {
     spotId: 2,
-    url: "https://static.wikia.nocookie.net/blackclover/images/2/21/Hage_orphanage_church.png/revision/latest/scale-to-width-down/250?cb=20171006185817",
+    url: "https://static.wikia.nocookie.net/blackstar/images/2/21/Hage_orphanage_church.png/revision/latest/scale-to-width-down/250?cb=20171006185817",
     preview: false
   },
   {

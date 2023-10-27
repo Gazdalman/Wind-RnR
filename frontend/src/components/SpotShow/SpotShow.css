@@ -1,0 +1,52 @@
+
+#call-out-box {
+  width: 30%;
+  display: inline-block;
+  border: 1px red dashed;
+}
+
+#COB-top {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0px;
+}
+
+#reserve-button {
+  margin: 0px 5% 30px 5%;
+  width: 90%;
+  height: 50%;
+}
+
+#spot-description {
+  display: inline-block;
+  border: 1px red dashed;
+}
+
+#spot-details-lower {
+  display: flex;
+  justify-content: space-between;
+}
+
+#spot-owner {
+  margin-bottom: 0px;
+}
+
+#spot-show {
+  max-width: 1000px;
+  margin: auto;
+}
+
+@media screen and (max-width: 925px) {
+  #spot-details-lower {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #call-out-box {
+    width: 270px;
+    display: inline-block;
+    border: 1px red dashed;
+    margin-bottom: 20px;
+  }
+}

@@ -4,10 +4,11 @@ import { useEffect, useState } from "react"
 import { getOneSpot } from "../../store/spots"
 import CallOutBox from "./CallOutBox"
 import ReviewArea from "./ReviewArea"
+import "./SpotShow.css"
 
 const SpotShow = () => {
   const [previewImage, setPreviewImage] = useState({ url: "https://cdn.drawception.com/images/panels/2017/5-21/pKkCMdsbbp-1.png" });
-
+  let count = 0
   const dispatch = useDispatch()
   const { spotId } = useParams();
   const spot = useSelector(state => state.spots.requestedSpot)
@@ -31,17 +32,18 @@ const SpotShow = () => {
     <div id="spot-show">
       <h1>{spot.name}</h1>
       <h3>{spot.city}, {spot.state}, {spot.country}</h3>
-      <img src={previewImage.url} alt={`Spot ${spot.id}`}/>
+      <img id="preview-image" src={previewImage.url} alt={`Spot ${spot.id}`} />
       {spot.SpotImages.length > 0 && spot.SpotImages.map(image => (
         image.id !== previewImage.id ? (
-          <img key={image.id} src={image.url} alt={`Spot ${image.id}`} />
+          <img id={`image-${count++}`} key={image.id} src={image.url} alt={`Spot ${image.id}`} />
         ) : null
       ))}
-      <h2>Hosted by {spot.Owner.firstName} {spot.Owner.lastName !== 'N/A' ? spot.Owner.lastName : ' '}</h2>
-      <br />
-      <p>{spot.description}</p>
-        <CallOutBox spot={spot}/>
-        <ReviewArea spot={spot}/>
+      <h2 id="spot-owner">Hosted by {spot.Owner.firstName} {spot.Owner.lastName !== 'N/A' ? spot.Owner.lastName : ' '}</h2>
+      <div id="spot-details-lower">
+        <p id="spot-description">{spot.description}</p>
+        <CallOutBox spot={spot} />
+      </div>
+      <ReviewArea spot={spot} />
     </div>
   )
 }

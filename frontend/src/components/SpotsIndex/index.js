@@ -45,7 +45,7 @@ const SpotsIndex = () => {
             </div>
             <div id="spot-info-upper">
               <span>{spot.city}, {`${abbreviate(spot.state)}`}</span>
-              <span id="reviews"><i className="fa-solid fa-clover" style={{ color: "#f55757" }} />{spot.avgRating ? spot.avgRating : "NEW"}</span>
+              <span id="reviews"><i className="fa-solid fa-star" style={{ color: "#f55757" }} />{spot.avgRating ? spot.avgRating : "NEW"}</span>
             </div>
             <div id="spot-info-lower"><span id='price'>${spot.price}</span>/night</div>
           </NavLink>

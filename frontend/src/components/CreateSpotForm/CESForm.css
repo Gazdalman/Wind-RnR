@@ -1,0 +1,80 @@
+.create-form-div {
+  width: 350px;
+  margin: auto;
+}
+
+.form-labels {
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+.create-a-spot-form *:not(button) {
+  width: 100%;
+}
+
+#city-state>* {
+  display: inline-block;
+}
+
+.create-a-spot-form input {
+  margin: 0px 0px 10px 0px;
+}
+
+#city {
+  width: 69%;
+  margin-right: 21px;
+}
+
+#state {
+  width: 25%
+}
+
+#lat-lng,
+#price-span,
+#name,
+#spot-description-span {
+  border-bottom: black 1px solid;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+#lng,
+#lat {
+  display: inline-block;
+}
+
+#lng {
+  width: 47%;
+}
+
+#lat {
+  width: 47%;
+  margin-right: 21px;
+}
+
+.create-a-spot-form>h3,
+.create-a-spot-form>p {
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+#spot-description-ces {
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+#CES-title {
+  text-align: center;
+}
+
+#spot-submit-button {
+  cursor: pointer;
+  width: 100px;
+  height: 25px;
+  background-color: rgb(245, 87, 87);
+  color: white;
+}
+
+#spot-submit-button:hover {
+  background-color: rgb(149, 37, 37);
+}

@@ -68,7 +68,6 @@ const bookingExists = async (req, _res, next) => {
 // Check if a user owns a specific resource
 const userOwns = async (req, _res, next) => {
   const { id } = req.user;
-  console.log(id);
   const { review, spot, booking, method } = req;
 
   if (spot) {

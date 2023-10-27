@@ -8,13 +8,13 @@ const CallOutBox = ({spot}) => {
           <span id="per-night">${spot.price}/Night</span>
           <span id="reviews-ratings">
             < i
-              className="fa-solid fa-clover"
+              className="fa-solid fa-star"
               style={{ color: "#f55757" }} />
             {spot.avgRating !== "NaN" ? spot.avgRating : "NEW"}
             {spot.numReviews > 0 &&
               (
                 <>
-                  <i className="fa-solid fa-diamond fa-2xs" />
+                  <i className="fa-solid fa-clover fa-2xs" />
                   <span>{spot.numReviews}</span>
                 </>
               )

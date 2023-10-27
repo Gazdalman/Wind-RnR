@@ -1,0 +1,11 @@
+#confirm-delete:hover {
+  background-color: rgb(149, 37, 37);
+}
+
+#confirm-delete {
+  background-color: rgb(247, 87, 87);
+}
+
+#modal-content #cancel-delete:hover {
+  background-color: rgb(152, 152, 152);
+}

@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import "./CreateASpot.css";
+import "./CESForm.css";
 import { useHistory } from "react-router-dom";
 import { addImages, createSpot, editSpot } from "../../store/spots";
 
 
 const CreateOrEditSpotForm = ({ type, spot }) => {
-  // console.log(type);
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => state.session.user);
@@ -27,7 +26,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
   const [errors, setErrors] = useState({});
 
   const notEmpty = (url) => {
-    if ( url === "https://www.ewingoutdoorsupply.com/media/catalog/product/placeholder/default/shutterstock_161251868.png") {
+    if (url === "https://www.ewingoutdoorsupply.com/media/catalog/product/placeholder/default/shutterstock_161251868.png") {
       return ""
     }
     return url
@@ -137,7 +136,6 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
 
     if (!price) errors.price = "Price is required"
 
-    console.log(errors);
     if (!Object.keys(errors).length) {
       if (type !== 'edit') {
         try {
@@ -148,11 +146,9 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
           setErrors(e)
         }
       } else {
-        console.log('edit');
         // try {
-          const res = await dispatch(editSpot(spotDetails, spot.id, spotImgs));
-          console.log('made it here');
-          history.push(`/spots/${spot.id}`);
+        await dispatch(editSpot(spotDetails, spot.id, spotImgs));
+        history.push(`/spots/${spot.id}`);
         // } catch (e) {
         //   setErrors(e)
         // }
@@ -162,18 +158,17 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
 
     setErrors(errors)
   };
-  // useEffect
   return (
     <div className="create-form-div">
       <form className="create-a-spot-form" onSubmit={handleSubmit}>
-        {type !== 'edit' ? <h1>Create a new Spot</h1> : <h1>Update your spot</h1>}
+        {type !== 'edit' ? <h1 id="CES-title">Create a new Spot</h1> : <h1 id="CES-title">Update your spot</h1>}
         <h3>Where's your place located?</h3>
         <p>
           Guest will only get your exact address once they have booked a
           reservation.
         </p>
-        <label className="form-labels">
-          Country
+        <div id="country">
+          <p className="form-labels">Country</p>
           {errors.country && (
             <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
               **{errors.country}**
@@ -185,9 +180,10 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
             value={country}
             onChange={(e) => setCountry(e.target.value)}
           />
-        </label>
-        <label className="form-labels">
-          Street Address
+        </div>
+        <div id="address">
+          <p className="form-labels">
+            Street Address</p>
           {errors.address && (
             <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
               **{errors.address}**
@@ -199,83 +195,97 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
-        </label>
-        <label className="form-labels">
-          City
-          {errors.city && (
-            <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
-              **{errors.city}**
-            </p>
-          )}
-          <input
-            type="text"
-            placeholder="City"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          />
-        </label>
-        <label className="form-labels">
-          State
-          {errors.state && (
-            <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
-              **{errors.state}**
-            </p>
-          )}
-          <input
-            type="text"
-            placeholder="STATE"
-            value={state}
-            onChange={(e) => setState(e.target.value)}
-          />
-        </label>
-        <label className="form-labels">
-          Latitude
-          {errors.lat && (
-            <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
-              **{errors.lat}**
-            </p>
-          )}
-          <input
-            type="number"
-            min="-90"
-            max="90"
-            placeholder="Latitude"
-            value={checkLat(lat)}
-            onChange={(e) => setLat(e.target.value)}
-          />
-        </label>
-        <label className="form-labels">
-          Longitude
-          {errors.lng && (
-            <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
-              **{errors.lng}**
-            </p>
-          )}
-          <input
-            type="number"
-            min="-180"
-            max="180"
-            placeholder="Longitude"
-            value={checkLng(lng)}
-            onChange={(e) => setLng(e.target.value)}
-          />
-        </label>
+        </div>
+        <div id="city-state">
+          <div id="city">
+            <p className="form-labels">
+              City</p>
+            {errors.city && (
+              <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
+                **{errors.city}**
+              </p>
+            )}
+            <input
+              type="text"
+              placeholder="City"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+          </div>
+          <div id="state">
+            <p className="form-labels">
+              State</p>
+            {errors.state && (
+              <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
+                **{errors.state}**
+              </p>
+            )}
+            <input
+              type="text"
+              placeholder="STATE"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+            />
+          </div>
+        </div>
+        <div id="lat-lng">
+          <div id="lat">
+            <p className="form-labels">
+              Latitude</p>
+            {errors.lat && (
+              <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
+                **{errors.lat}**
+              </p>
+            )}
+            <input
+              type="number"
+              min="-90"
+              max="90"
+              placeholder="Latitude"
+              value={checkLat(lat)}
+              onChange={(e) => setLat(e.target.value)}
+            />
+          </div>
+          <div id="lng">
+            <p className="form-labels">
+              Longitude</p>
+            {errors.lng && (
+              <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
+                **{errors.lng}**
+              </p>
+            )}
+            <input
+              type="number"
+              min="-180"
+              max="180"
+              placeholder="Longitude"
+              value={checkLng(lng)}
+              onChange={(e) => setLng(e.target.value)}
+            />
+          </div>
+        </div>
+
         <h3>Describe your place to guests</h3>
         <p>
           Mention the best features of your space, any special amenities like
           fast wifi or parking, and what you love about the neighborhood.
         </p>
-        <textarea
-          id="spot-description"
-          placeholder="Please write at least 30 characters"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+        <br />
         {errors.description && (
           <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
             **{errors.description}**
           </p>
         )}
+        <span id="spot-description-span">
+          <textarea
+          id="spot-description-ces"
+          placeholder="Please write at least 30 characters"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        </span>
+
+
         <h3>
           Create a title for your spot
         </h3>
@@ -283,17 +293,22 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
           Catch guests' attention with a spot title that highlights what makes
           your place special.
         </p>
-        <input
-          type="text"
-          placeholder="Create a title for your spot"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <br />
         {errors.name && (
           <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
             **Name is required**
           </p>
         )}
+        <span id="name">
+          <input
+            type="text"
+            placeholder="Create a title for your spot"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </span>
+
+
         <h3>
           Set a base price for your spot
         </h3>
@@ -301,18 +316,23 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
           Competitive pricing can help your listing stand out and rank higher
           in search results.
         </p>
-        <input
-          type="number"
-          placeholder="Price per night (USD)"
-          min="0"
-          value={checkPrice(price)}
-          onChange={(e) => setPrice(e.target.value)}
-        />
+        <br />
         {errors.price && (
           <p style={{ fontSize: "12px", color: "red", margin: "5px 0 0 0" }}>
             **{errors.price}**
           </p>
         )}
+        <span id="price-span">
+          <input
+            type="number"
+            placeholder="Price per night (USD)"
+            min="0"
+            value={checkPrice(price)}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </span>
+
+
         <h3>
           Liven up your spot with photos
         </h3>
