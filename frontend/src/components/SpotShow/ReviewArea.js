@@ -61,7 +61,7 @@ const ReviewArea = ({ spot }) => {
           <h3 >{review.User.firstName}</h3>
           <h4>{setDate(review.createdAt)}</h4>
           <p>{review.review}</p>
-          {user ? (user.id === review.userId) && <div className="review-buttons">
+          {user ? (user.id === review.userId || user.username === "TheManager") && <div className="review-buttons">
           <OpenModalButton
           modalClasses={["review-delete-button"]}
             modalComponent={<DeleteModal type={"review"} review={review}/>}

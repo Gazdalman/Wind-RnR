@@ -45,7 +45,7 @@
   width: fit-content;
 }
 
-.spot-card>* {
+.spot-card > * {
   color: rgb(245, 87, 87);
   text-decoration: none;
 }
