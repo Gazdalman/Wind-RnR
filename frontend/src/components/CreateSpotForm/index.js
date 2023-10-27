@@ -25,7 +25,6 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
   const [url4, setUrl4] = useState(type === "edit" && spot && spot.SpotImages[4] ? spot.SpotImages[4].url : "");
   const [errors, setErrors] = useState({});
 
-  console.log(spot);
   const notEmpty = (url) => {
     if (url === "https://www.ewingoutdoorsupply.com/media/catalog/product/placeholder/default/shutterstock_161251868.png") {
       return ""
@@ -115,7 +114,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
       price,
     };
 
-    if (!previewImageUrl.length) {
+    if (previewImageUrl.length < 5) {
       errors.previewImageUrl = "Preview image is required";
     }
 
@@ -150,6 +149,8 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
     if (!name.length) errors.name = "Name is required"
 
     if (!price) errors.price = "Price is required";
+
+    console.log(errors);
 
     if (!Object.keys(errors).length) {
       if (type !== 'edit') {
@@ -357,6 +358,18 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
         <p>
           Submit a link to at least one photo to publish your spot.
         </p>
+
+        {errors.previewImageUrl && (
+          <p style={{ fontSize: "13px", color: "red", margin: "0" }}>
+            *{errors.previewImageUrl}
+          </p>
+        )}
+        {errors.urlEndsWith && (
+          <p style={{ fontSize: "13px", color: "red", margin: "0" }}>
+            *{errors.urlEndsWith}
+          </p>
+        )}
+
         <input
           className="spot-img-urls"
           type="text"
@@ -364,12 +377,6 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
           value={previewImageUrl}
           onChange={(e) => setPreviewImageUrl(e.target.value)}
         />
-        {errors.previewImageUrl && (
-          <p style={{ fontSize: "13px", color: "red", margin: "0" }}>
-            *{errors.previewImageUrl}
-            *{errors.urlEndsWith}
-          </p>
-        )}
         <input
           disabled={!previewImageUrl.length}
           className="spot-img-urls"
@@ -379,9 +386,9 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
           value={notEmpty(url1)}
           onChange={(e) => setUrl1(e.target.value)}
         />
-        {(errors.urlEndsWith && url1) && (
+        {(errors.url1EndsWith && url1) && (
           <p style={{ fontSize: "13px", color: "red", margin: "0" }}>
-            *{errors.urlEndsWith}
+            *{errors.url1EndsWith}
           </p>
         )}
         <input
@@ -393,9 +400,9 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
           value={notEmpty(url2)}
           onChange={(e) => setUrl2(e.target.value)}
         />
-        {(errors.urlEndsWith && url2) && (
+        {(errors.url2EndsWith && url2) && (
           <p style={{ fontSize: "13px", color: "red", margin: "0" }}>
-            *{errors.urlEndsWith}
+            *{errors.url2EndsWith}
           </p>
         )}
         <input
@@ -407,9 +414,9 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
           value={notEmpty(url3)}
           onChange={(e) => setUrl3(e.target.value)}
         />
-        {(errors.urlEndsWith && url3) && (
+        {(errors.url3EndsWith && url3) && (
           <p style={{ fontSize: "13px", color: "red", margin: "0" }}>
-            *{errors.urlEndsWith}
+            *{errors.url3EndsWith}
           </p>
         )}
         <input
@@ -421,16 +428,16 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
           value={notEmpty(url4)}
           onChange={(e) => setUrl4(e.target.value)}
         />
-        {(errors.urlEndsWith && url4) && (
+        {(errors.url4EndsWith && url4) && (
           <p style={{ fontSize: "13px", color: "red", margin: "0" }}>
-            *{errors.urlEndsWith}
+            *{errors.url4EndsWith}
           </p>
         )}
         <button id="spot-submit-button" type="submit">
           {type !== "edit" ? 'Create Spot' : 'Update Spot'}
         </button>
       </form>
-    </div>
+    </div >
   );
 }
 

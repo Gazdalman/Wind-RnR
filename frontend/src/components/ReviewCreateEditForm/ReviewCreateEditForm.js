@@ -17,6 +17,7 @@ const ReviewCreateEditForm = ({ spot }) => {
 
   const onChange = (number) => {
     setRating(parseInt(number));
+
   };
 
   const handleSubmit = async (e) => {
@@ -28,10 +29,11 @@ const ReviewCreateEditForm = ({ spot }) => {
       userId: user.id
     }
 
-   await dispatch(addSpotReview(spot.id, review)).then(() => closeModal()
-      ).catch( async res => {
+    await dispatch(addSpotReview(spot.id, review)).then(() =>
+      closeModal()
+    ).catch(async res => {
       const err = await res.json()
-      setErrors({errors: {...err}})
+      setErrors({ errors: { ...err } })
     })
 
 

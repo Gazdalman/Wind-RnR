@@ -5,10 +5,9 @@ import OpenModalButton from "../OpenModalButton";
 import ReviewCreateEditForm from "../ReviewCreateEditForm/ReviewCreateEditForm";
 import { useState } from "react";
 import DeleteModal from "../ManageSpots/deleteModal";
-import { getOneSpot } from "../../store/spots";
 
-const ReviewArea = ({ spot }) => {
-  const [userReviewed, setUserReviewed] = useState(false)
+const ReviewArea = ({ spot, setRevAvg, revAvg }) => {
+  const [userReviewed, setUserReviewed] = useState(false);
   const revs = useSelector(state => state.reviews);
   const reviews = (revs && revs.length > 0 ? [...revs] : [])
   const user = useSelector(state => state.session.user);
@@ -23,7 +22,6 @@ const ReviewArea = ({ spot }) => {
   }
 
   useEffect(() => {
-   console.log("I ran");
     dispatch(getSpotReviews(spot.id))
   }, [dispatch, spot.id])
 
@@ -31,11 +29,13 @@ const ReviewArea = ({ spot }) => {
     if (reviews.length > 0 && user) {
       const userReview = reviews.filter(review => review.userId === user.id);
       if (userReview[0]) setUserReviewed(true);
+      const totalStars = reviews.reduce((accumulator, review) => accumulator + review.stars, 0);
+      setRevAvg(totalStars / reviews.length);
     }
+
   }, [reviews, user])
 
   useEffect(() => {
-    console.log("I ran too");
   }, [userReviewed])
   if (numReviews > 0) {
     const compareByDate = (a, b) => {
@@ -49,9 +49,9 @@ const ReviewArea = ({ spot }) => {
       <div className="review-area-header">
         <span>
           <i className="fa-solid fa-star">
-            <span>{spot.avgRating}</span></i>
+            <span>{revAvg.toFixed(1)}</span></i>
         </span>
-        <span><i className="fa-solid fa-diamond fa-2xs separator" /><span>{numReviews} {numReviews > 1 ? 'Reviews' : "Review"}</span></span>
+        <span><i className="fa-solid fa-clover fa-2xs separator" /><span>{numReviews} {numReviews > 1 ? 'Reviews' : "Review"}</span></span>
       </div>
       <div className="post-button">
         {(user && user.id !== spot.ownerId && !userReviewed) &&

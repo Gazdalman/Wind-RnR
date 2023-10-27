@@ -31,3 +31,7 @@ html {
   color: rgb(245, 87, 87);
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
+
+textarea {
+  resize: none;
+}

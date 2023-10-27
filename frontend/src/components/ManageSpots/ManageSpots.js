@@ -13,7 +13,7 @@ const ManageSpots = () => {
   const history = useHistory();
   const user = useSelector(state => state.session.user);
   const spots = useSelector(state => state.spots);
-  const managerSpots = user.username === "TheManager" ? Object.values(spots) : null
+  const managerSpots = user && user.username === "TheManager" ? Object.values(spots) : null
   const userSpots = user ? Object.values(spots).filter(spot => spot.ownerId === user.id) : null;
   const abbreviate = (state) => {
     const parts = state.split(" ");
