@@ -27,7 +27,7 @@ const SpotShow = () => {
   }, [spot])
 
 
-  return spot ? (
+  return spot && isLoaded ? (
     <div id="spot-show">
       <h1 id="spot-name">{spot.name}</h1>
       <h3>{spot.city}, {spot.state}, {spot.country}</h3>
