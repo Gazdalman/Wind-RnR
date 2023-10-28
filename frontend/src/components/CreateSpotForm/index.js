@@ -135,12 +135,12 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
     if (!state.length) errors.state = "State is required"
 
     if (lat === ""
-      || +lat === NaN
+      || isNaN(+lat)
       || +lat > 90
       || +lat < -90) errors.lat = "Latitude must be between -90 and 90";
 
     if (lng === ""
-      || +lng === NaN
+      || isNaN(+lng)
       || +lng > 180
       || +lng < -180) errors.lng = "Longitude must be between -180 and 180";
 

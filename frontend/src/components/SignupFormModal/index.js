@@ -43,12 +43,12 @@ function SignupFormModal() {
       confirmPassword: "Passwords do not match"
     });
   };
-  const isShortUsername = username.trim().length < 4;
-  const isShortPassword = password.trim().length < 6;
-  const isEmpty = (field) => field.trim() === "" || field.trim() === '@';
-  const isValidEmail = email ? (email.split('@')[1] && email.split('@')[1].includes('.')) : false;
 
   useEffect(() => {
+    const isShortUsername = username.trim().length < 4;
+    const isShortPassword = password.trim().length < 6;
+    const isEmpty = (field) => field.trim() === "" || field.trim() === '@';
+    const isValidEmail = email ? (email.split('@')[1] && email.split('@')[1].includes('.')) : false;
     setAllFilled(
       !isEmpty(email)
       && !isEmpty(username)

@@ -29,15 +29,18 @@ const SpotShow = () => {
 
   return spot && isLoaded ? (
     <div id="spot-show">
-      <h1>{spot.name}</h1>
+      <h1 id="spot-name">{spot.name}</h1>
       <h3>{spot.city}, {spot.state}, {spot.country}</h3>
       <div id="spot-images-container">
-        <img id="preview-image" className="spot-img" src={previewImage.url} alt={`Spot ${spot.id}`} />
-        {spot.SpotImages.length > 0 && spot.SpotImages.map(image => (
-          image.id !== previewImage.id ? (
-            <img className="spot-img" id={`image-${count++}`} key={image.id} src={image.url} alt={`Spot ${image.id}`} />
-          ) : null
-        ))}
+        <img id="preview-image" src={previewImage.url} alt={`Spot ${spot.id}`} />
+        <span id="none-prev">
+          {spot.SpotImages.length > 0 && spot.SpotImages.map(image => (
+            image.id !== previewImage.id ? (
+              <img className="spot-img" id={`img-${count++}`} key={image.id} src={image.url} alt={`Spot ${image.id}`} />
+            ) : null
+          ))}
+        </span>
+
       </div>
       <h2 id="spot-owner">Hosted by {spot.Owner.firstName} {spot.Owner.lastName !== 'N/A' ? spot.Owner.lastName : ' '}</h2>
       <div id="spot-details-lower">

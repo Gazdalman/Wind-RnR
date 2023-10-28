@@ -9,6 +9,7 @@ import DeleteModal from "../ManageSpots/deleteModal";
 const ReviewArea = ({ spot, setRevAvg, revAvg, numRevs }) => {
   const [userReviewed, setUserReviewed] = useState(false);
   const revs = useSelector(state => state.reviews);
+  // eslint-disable-next-line
   const reviews = (revs && revs.length > 0 ? [...revs] : [])
   const user = useSelector(state => state.session.user);
   const numReviews = [...Object.values(reviews)].length;
@@ -35,10 +36,8 @@ const ReviewArea = ({ spot, setRevAvg, revAvg, numRevs }) => {
       setRevAvg(totalStars / reviews.length);
     }
 
-  }, [reviews, user])
+  }, [reviews, user, setRevAvg])
 
-  useEffect(() => {
-  }, [userReviewed])
   if (numReviews > 0) {
     const compareByDate = (a, b) => {
       return new Date(b.createdAt) - new Date(a.createdAt);
@@ -53,7 +52,7 @@ const ReviewArea = ({ spot, setRevAvg, revAvg, numRevs }) => {
           <i className="fa-solid fa-star">
             <span>{revAvg.toFixed(1)}</span></i>
         </span>
-        <span><i className="fa-solid fa-clover fa-2xs separator" /><span>{numReviews} {numReviews > 1 ? 'Reviews' : "Review"}</span></span>
+        <span><i className="fa-solid fa-clover fa-2xs separator" /><span id="num-reviews">{numReviews} {numReviews > 1 ? 'Reviews' : "Review"}</span></span>
       </div>
       <div className="post-button">
         {(user && user.id !== spot.ownerId && !userReviewed) &&
@@ -66,7 +65,7 @@ const ReviewArea = ({ spot, setRevAvg, revAvg, numRevs }) => {
       {sortedReviews.map(review => (
         <div key={review.id} className="review">
           <h3 >{review.User.firstName}</h3>
-          <h4>{setDate(review.createdAt)}</h4>
+          <h4 id="rev-date">{setDate(review.createdAt)}</h4>
           <p>{review.review}</p>
           {user ? (user.id === review.userId || user.username === "TheManager") && <div className="review-buttons">
             <OpenModalButton
@@ -95,6 +94,7 @@ const ReviewArea = ({ spot, setRevAvg, revAvg, numRevs }) => {
       <div className="post-button">
         {(user && user.id !== spot.ownerId) &&
           <OpenModalButton
+          modalClasses={['create-review-button']}
             modalComponent={<ReviewCreateEditForm spot={spot} />}
             buttonText={"Post a Review"}
           />}
