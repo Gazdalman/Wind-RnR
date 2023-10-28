@@ -148,6 +148,8 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
 
     if (!name.length) errors.name = "Name is required"
 
+    if (name && name.length < 5) errors.name = "Name must be at least 5 characters"
+
     if (!price) errors.price = "Price is required";
 
     console.log(errors);

@@ -1,8 +1,28 @@
+#spot-images-container {
+  height: 1000px;
+  display: grid;
+  grid-template-columns: 2fr, 1fr, 1fr;
+  grid-template-rows: 50% 50%;
+  grid-template-areas:
+  'prev img1 img2'
+  'prev img3 img4';
+}
+
+.spot-img {
+  width: 100%;
+}
+
+#preview-image {
+  grid-area: prev;
+}
+
+
 
 #call-out-box {
   width: 30%;
   display: inline-block;
-  border: 1px red dashed;
+  border: 1px black solid;
+    border-radius: 10px;
 }
 
 #COB-top {
@@ -16,11 +36,18 @@
   margin: 0px 5% 30px 5%;
   width: 90%;
   height: 50%;
+  background-color: rgb(247,87,87);
+  color: white;
+}
+
+#reserve-button:hover {
+  cursor: pointer;
+  background-color: rgb(149,37,37);
 }
 
 #spot-description {
   display: inline-block;
-  border: 1px red dashed;
+  width: 60%;
 }
 
 #spot-details-lower {
@@ -44,9 +71,8 @@
   }
 
   #call-out-box {
-    width: 270px;
+    width: 300px;
     display: inline-block;
-    border: 1px red dashed;
     margin-bottom: 20px;
   }
 }

@@ -43,11 +43,12 @@ function SignupFormModal() {
       confirmPassword: "Passwords do not match"
     });
   };
+  const isShortUsername = username.trim().length < 4;
+  const isShortPassword = password.trim().length < 6;
+  const isEmpty = (field) => field.trim() === "" || field.trim() === '@';
+  const isValidEmail = email ? (email.split('@')[1] && email.split('@')[1].includes('.')) : false;
 
   useEffect(() => {
-    const isEmpty = (field) => field.trim() === "";
-    const isShortUsername = username.trim().length < 4;
-    const isShortPassword = password.trim().length < 6;
     setAllFilled(
       !isEmpty(email)
       && !isEmpty(username)
@@ -56,34 +57,38 @@ function SignupFormModal() {
       && !isEmpty(lastName)
       && !isShortUsername
       && !isShortPassword
+      && isValidEmail
     );
   }, [email, username, firstName, lastName, password, confirmPassword]);
 
   return (
     <div id="signup-div">
       <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
+      <form style={{ width: '100%'}} id="signup-form" onSubmit={handleSubmit}>
         <label>
+          Email
           <input
-            placeholder="Email"
-            type="text"
+            placeholder="example@user.io"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {errors.email && <p style={{ fontSize: "13px", color: "red", margin: "5px 0 0 0" }}>{errors.email}</p>}
         <label>
+          Username
           <input
-            placeholder="Username"
+            placeholder="4 or more characters"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
         </label>
-        {errors.username && <p>{errors.username}</p>}
         <label>
+        First Name
+        {errors.firstName && <p style={{ fontSize: "13px", color: "red", margin: "5px 0 0 0" }}>{errors.firstName}</p>}
           <input
             placeholder="First Name"
             type="text"
@@ -92,8 +97,9 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.firstName && <p>{errors.firstName}</p>}
         <label>
+        Last Name
+        {errors.lastName && <p>{errors.lastName}</p>}
           <input
             placeholder="Last Name"
             type="text"
@@ -102,29 +108,29 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.lastName && <p>{errors.lastName}</p>}
         <label>
+        Password
+        {errors.password && <p style={{ fontSize: "13px", color: "red", margin: "0px 0 0 0" }}>**Password must be at least 6 characters</p>}
           <input
-            placeholder="Password"
+            placeholder="6 or more characters"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
         <label>
+          {errors.confirmPassword && (
+        <p>{errors.confirmPassword}</p>
+      )}
           <input
             placeholder="Confirm Password"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-          />
+            />
         </label>
-        {errors.confirmPassword && (
-          <p>{errors.confirmPassword}</p>
-        )}
         <button
         id="sign-up-button"
           disabled={!allFilled}
