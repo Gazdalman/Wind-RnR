@@ -34,6 +34,9 @@ const ReviewArea = ({ spot, setRevAvg, revAvg, numRevs }) => {
       if (userReview[0]) setUserReviewed(true);
       const totalStars = reviews.reduce((accumulator, review) => accumulator + review.stars, 0);
       setRevAvg(totalStars / reviews.length);
+    } else if (reviews.length > 0) {
+      const totalStars = reviews.reduce((accumulator, review) => accumulator + review.stars, 0);
+      setRevAvg(totalStars / reviews.length);
     }
 
   }, [reviews, user, setRevAvg])
