@@ -132,7 +132,7 @@ const ReviewCreateEditForm = ({ spot }) => {
           />
           <span style={{ fontSize: "15px", marginLeft: "5px" }}>Stars</span>
         </div>
-        <button className={className} disabled={disabled}>
+        <button id="review-submit" className={className} disabled={disabled}>
           Submit Your Review
         </button>
       </form>
