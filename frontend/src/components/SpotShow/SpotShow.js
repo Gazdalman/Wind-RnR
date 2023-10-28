@@ -8,7 +8,7 @@ import "./SpotShow.css"
 
 const SpotShow = () => {
   const [previewImage, setPreviewImage] = useState({ url: "https://cdn.drawception.com/images/panels/2017/5-21/pKkCMdsbbp-1.png" });
-  // const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [revAvg, setRevAvg] = useState(0);
   const [numReviews, setNumReviews] = useState(0)
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const SpotShow = () => {
   let count = 0
 
   useEffect(() => {
-    // setIsLoaded(true)
+    setIsLoaded(true)
     dispatch(getOneSpot(spotId))
   }, [dispatch, spotId])
 
