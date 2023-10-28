@@ -19,7 +19,11 @@ const SpotShow = () => {
 
   useEffect(() => {
     setIsLoaded(true)
-    dispatch(getOneSpot(spotId))
+    const getSpot = async () => {
+      await dispatch(getOneSpot(spotId))
+    }
+
+    getSpot()
   }, [dispatch, spotId])
 
   useEffect(() => {
