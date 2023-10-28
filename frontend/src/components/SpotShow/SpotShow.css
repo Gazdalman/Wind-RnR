@@ -122,7 +122,7 @@
   font-size: 4vw;
 }
 
-@media screen and (max-width: 925px) {
+@media screen and (max-width: 1000px) {
   #spot-details-lower {
     display: flex;
     flex-direction: column;
@@ -148,14 +148,20 @@
   }
 }
 
-@media screen and (min-width: 11800px) {
+@media screen and (min-width: 1180px) {
   #spot-name {
     font-size: 3vw;
+  }
+  #call-out-box {
+    width: 300px;
+    display: inline-block;
+    margin-bottom: 20px;
+    margin-top: 20px;
   }
 }
 
 @media screen and (min-width: 1360px) {
-  #spot-name {
+  /* #spot-name {
     font-size: 50px;
-  }
+  } */
 }
