@@ -6,6 +6,12 @@ import NotFoundForm from "../notFoundForm/notFoundForm";
 import { getOneSpot } from "../../store/spots";
 
 const EditSpot = () => {
+  const check = async () => {
+    const res = await dispatch(getOneSpot(spotId));
+    if (res.broken) {
+      history.replace("/not-found")
+    }
+  }
   const history = useHistory();
   const dispatch = useDispatch();
   const { spotId } = useParams();
@@ -17,14 +23,8 @@ const EditSpot = () => {
       history.replace("/");
       window.alert("Please Log In to manage or create spots")
     }
-    const check = async () => {
-      const res = await dispatch(getOneSpot(spotId));
-      if (res.broken) {
-        history.replace("/not-found")
-      }
-    }
     check()
-  }, [dispatch, spotId]);
+  }, [check]);
 
 
   return (spot && user) ? (

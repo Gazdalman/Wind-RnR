@@ -7,26 +7,26 @@ import ReviewArea from "./ReviewArea"
 import "./SpotShow.css"
 
 const SpotShow = () => {
+  const dispatch = useDispatch();
+  const { spotId } = useParams();
   const history = useHistory()
+  const checkReturn = async () => {
+    const res = await dispatch(getOneSpot(spotId));
+    if (res.broken) {
+      history.replace("/not-found")
+    }
+  }
   const [previewImage, setPreviewImage] = useState({ url: "https://cdn.drawception.com/images/panels/2017/5-21/pKkCMdsbbp-1.png" });
   const [isLoaded, setIsLoaded] = useState(false);
   const [revAvg, setRevAvg] = useState(0);
   const [numReviews, setNumReviews] = useState(0)
-  const dispatch = useDispatch();
-  const { spotId } = useParams();
   const spot = useSelector(state => state.spots.requestedSpot);
 
   let imgNum = 0
 
   useEffect(() => {
-    const checkReturn = async () => {
-      const res = await dispatch(getOneSpot(spotId));
-      if (res.broken) {
-        history.replace("/not-found")
-      }
-    }
     checkReturn()
-  }, [dispatch, history, spotId]);
+  }, [spotId]);
 
   useEffect(() => {
     if (spot && spot.SpotImages && spot.SpotImages.length > 0) {
