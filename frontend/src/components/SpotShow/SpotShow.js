@@ -22,6 +22,8 @@ const SpotShow = () => {
   const [numReviews, setNumReviews] = useState(0)
   const spot = useSelector(state => state.spots.requestedSpot);
 
+  console.log('I mean...', spot);
+
   let imgNum = 0
 
   useEffect(() => {

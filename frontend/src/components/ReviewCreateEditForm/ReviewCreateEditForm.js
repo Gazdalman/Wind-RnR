@@ -12,7 +12,7 @@ const ReviewCreateEditForm = ({ spot }) => {
   const [activeRating, setActiveRating] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [rating, setRating] = useState(0);
-  const [className, setClassName] = useState('');
+  const [className, setClassName] = useState('disabled');
   const [errors, setErrors] = useState({});
 
   const onChange = (number) => {

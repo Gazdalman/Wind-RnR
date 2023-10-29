@@ -95,15 +95,36 @@
   margin-bottom: 5px;
 }
 
+.disabled#review-submit {
+  background-color: white;
+  border: none;
+  color: grey
+}
+
 #review-submit {
-  cursor: pointer;
   width: fit-content;
   height: 25px;
   background-color: rgb(245, 87, 87);
   color: white;
 }
 
-#review-submit:hover {
+.review-delete-button {
+  width: 70px;
+  background-color: #636363;
+  color: #fff;
+  border-radius: none;
+  border: none;
+  margin: 0;
+  padding: 5px;
+}
+
+.review-delete-button:hover {
+  cursor: pointer;
+  background-color: #393838;
+}
+
+.ready#review-submit:hover {
+  cursor: pointer;
   background-color: rgb(149, 37, 37);
 }
 /* End of Reviews */
@@ -128,7 +149,7 @@
 }
 
 .create-review-button {
-  width: 70px;
+  width: fit-content;
   background-color: #636363;
   color: #fff;
   border-radius: none;
