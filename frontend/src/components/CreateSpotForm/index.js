@@ -77,9 +77,9 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
 
       if (url) {
         if (
-          !url.includes("png") &&
-          !url.includes("jpg") &&
-          !url.includes("jpeg")
+          !url.endsWith(".png") &&
+          !url.endsWith(".jpg") &&
+          !url.endsWith(".jpeg")
         ) {
           errors[`url${count}EndsWith`] = "Image URL must end in .png, .jpg, or .jpeg";
         } else {
@@ -116,9 +116,9 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
     }
 
     if (
-      !previewImageUrl.includes("png") &&
-      !previewImageUrl.includes("jpg") &&
-      !previewImageUrl.includes("jpeg")
+      !previewImageUrl.endsWith(".png") &&
+      !previewImageUrl.endsWith(".jpg") &&
+      !previewImageUrl.endsWith(".jpeg")
     ) {
       errors.urlEndsWith = "Image URL must end in .png, .jpg, or .jpeg";
     }
@@ -147,7 +147,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
 
     if (name && name.length < 5) errors.name = "Name must be at least 5 characters"
 
-    if (!price) errors.price = "Price is required";
+    if (!+price || +price < 1) errors.price = "Price is required";
 
     console.log(errors);
 
@@ -263,10 +263,11 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
               </p>
             )}
             <input
-              type="text"
+              type="number"
+              step='0.0000001'
               min="-90"
               max="90"
-              placeholder="Latitude"
+              placeholder="Max of 7 digits after decimal"
               value={checkLat(lat)}
               onChange={(e) => setLat(e.target.value)}
             />
@@ -280,10 +281,11 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
               </p>
             )}
             <input
-              type="test"
+              type="number"
+              step='0.0000001'
               min="-180"
               max="180"
-              placeholder="Longitude"
+              placeholder="Max of 7 digits after decimal"
               value={checkLng(lng)}
               onChange={(e) => setLng(e.target.value)}
             />
@@ -349,9 +351,10 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
         )}
         <span id="price-span">
           <input
-            type="text"
+            type="number"
             placeholder="Price per night (USD)"
-            min="0"
+            step='0.01'
+            min="1"
             value={checkPrice(price)}
             onChange={(e) => setPrice(e.target.value)}
           />
