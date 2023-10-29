@@ -35,7 +35,7 @@ const deleteSpot = (spotId) => {
 }
 
 export const getOneSpot = (spotId) => async dispatch => {
-  const res = await fetch(`/api/spots/${spotId}`);
+  const res = await csrfFetch(`/api/spots/${spotId}`);
 
   if (res.ok) {
     const spot = await res.json();
