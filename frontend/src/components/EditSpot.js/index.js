@@ -12,27 +12,31 @@ const EditSpot = () => {
   const user = useSelector(state => state.session.user);
   const spot = useSelector(state => state.spots.requestedSpot);
 
-  if (!user) {
-    history.replace("/");
-  }
-
   useEffect(() => {
-    dispatch(getOneSpot(spotId));
+    if (!user) {
+      history.replace("/");
+      window.alert("Please Log In to manage or create spots")
+    }
+    const check = async () => {
+      const res = await dispatch(getOneSpot(spotId));
+      if (res.broken) {
+        history.replace("/not-found")
+      }
+    }
+    check()
   }, [dispatch, spotId]);
+
 
   return (spot && user) ? (
     <>
-      { +user.id === +spot.ownerId || user.username === "TheManager" ? <>
+      {+user.id === +spot.ownerId || user.username === "TheManager" ? <>
         <CreateOrEditSpotForm type={"edit"} spot={spot} />
       </> : <>
         <h1>403: You are NOT AUTHORIZED MY GUY!!!</h1>
       </>
       }
     </>
-
-  ) : (
-    <NotFoundForm />
-  )
+  ) : null
 }
 
 export default EditSpot;

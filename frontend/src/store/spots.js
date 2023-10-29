@@ -39,11 +39,11 @@ export const getOneSpot = (spotId) => async dispatch => {
 
   if (res.ok) {
     const spot = await res.json();
-    dispatch(getOne(spot));
+    await dispatch(getOne(spot));
     return spot;
   }
-  const bad = await res.json();
-  return bad;
+
+  return { broken: 'nope'}
 };
 
 export const getAllSpots = () => async dispatch => {

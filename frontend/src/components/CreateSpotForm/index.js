@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./CESForm.css";
 import { useHistory } from "react-router-dom";
 import { addImages, createSpot, editSpot } from "../../store/spots";
+import { useEffect } from "react";
 
 
 const CreateOrEditSpotForm = ({ type, spot }) => {
@@ -60,10 +61,6 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
       return -180;
     }
     return lng
-  }
-
-  if (!user) {
-    history.replace("/");
   }
 
   const handleSubmit = async (e) => {
@@ -179,6 +176,13 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
 
     setErrors(errors)
   };
+
+  useEffect(() => {
+    if (!user) {
+      history.replace("/");
+      window.alert("Please Log In to manage or create spots")
+    }
+  }, [])
   return (
     <div className="create-form-div">
       <form className="create-a-spot-form" onSubmit={handleSubmit}>

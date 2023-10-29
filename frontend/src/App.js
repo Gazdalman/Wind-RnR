@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotsIndex from "./components/SpotsIndex";
@@ -10,6 +10,7 @@ import ManageSpots from "./components/ManageSpots/ManageSpots";
 import { getAllSpots } from "./store/spots";
 import NotFoundForm from "./components/notFoundForm/notFoundForm";
 import EditSpot from "./components/EditSpot.js";
+import RedirectComponent from "./RedirectComponent";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -42,8 +43,12 @@ const App = () => {
             <Route exact path="/spots/:spotId">
               <SpotShow />
             </Route>
-            <Route>
+            <Route path="/unauthorized"></Route>
+            <Route path="/not-found">
               <NotFoundForm />
+            </Route>
+            <Route>
+              <RedirectComponent/>
             </Route>
           </Switch>
         )}
