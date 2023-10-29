@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { getOneSpot } from "../../store/spots"
+import { getOneSpot } from "../../store/singleSpot"
 import CallOutBox from "./CallOutBox"
 import ReviewArea from "./ReviewArea"
 import "./SpotShow.css"
@@ -20,7 +20,7 @@ const SpotShow = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [revAvg, setRevAvg] = useState(0);
   const [numReviews, setNumReviews] = useState(0)
-  const spot = useSelector(state => state.spots.requestedSpot);
+  const spot = useSelector(state => state.singleSpot);
 
   console.log('I mean...', spot);
 
@@ -42,7 +42,7 @@ const SpotShow = () => {
   //   history.replace("/not-found")
   // }
 
-  return spot ? (
+  return Object.keys(spot).length > 0 && +spot.id === +spotId ? (
     <div id="spot-show">
       <h1 id="spot-name">{spot.name}</h1>
       <h3>{spot.city}, {spot.state}, {spot.country}</h3>

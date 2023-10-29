@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import CreateOrEditSpotForm from "../CreateSpotForm";
 import NotFoundForm from "../notFoundForm/notFoundForm";
-import { getOneSpot } from "../../store/spots";
+import { getOneSpot } from "../../store/singleSpot";
 
 const EditSpot = () => {
   const check = async () => {
@@ -16,7 +16,7 @@ const EditSpot = () => {
   const dispatch = useDispatch();
   const { spotId } = useParams();
   const user = useSelector(state => state.session.user);
-  const spot = useSelector(state => state.spots.requestedSpot);
+  const spot = useSelector(state => state.singleSpot);
 
   useEffect(() => {
     if (!user) {
@@ -27,7 +27,7 @@ const EditSpot = () => {
   }, [check]);
 
 
-  return (spot && user) ? (
+  return ((spot && +spot.id === +spotId) && user) ? (
     <>
       {+user.id === +spot.ownerId || user.username === "TheManager" ? <>
         <CreateOrEditSpotForm type={"edit"} spot={spot} />

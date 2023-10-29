@@ -20,3 +20,15 @@ export const getOneSpot = (spotId) => async dispatch => {
 
   return { broken: 'nope'}
 };
+
+const singleSpotReducer = (state = {}, action) => {
+  switch (action.type) {
+    case GET_ONE:
+    return {...action.spot}
+
+    default:
+      return state
+  }
+}
+
+export default singleSpotReducer;

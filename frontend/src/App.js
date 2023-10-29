@@ -18,7 +18,7 @@ const App = () => {
   useEffect(() => {
     dispatch(getAllSpots())
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-  }, [dispatch]);
+  }, []);
 
   return (
     <div>
