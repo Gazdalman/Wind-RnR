@@ -15,8 +15,11 @@ import RedirectComponent from "./RedirectComponent";
 const App = () => {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+useEffect(() => {
+  dispatch(getAllSpots())
+}, [])
+
   useEffect(() => {
-    dispatch(getAllSpots())
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
