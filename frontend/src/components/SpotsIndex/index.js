@@ -13,7 +13,7 @@ const SpotsIndex = () => {
 
   const abbreviate = (state) => {
     const parts = state.split(" ");
-    if (states[state]) return states[states];
+    if (states[state]) return states[state];
 
     if (parts.length > 1) {
       let abbr = "";

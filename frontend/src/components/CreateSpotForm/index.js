@@ -4,6 +4,7 @@ import "./CESForm.css";
 import { useHistory } from "react-router-dom";
 import { addImages, createSpot, editSpot } from "../../store/spots";
 import { useEffect } from "react";
+import { getOneSpot } from "../../store/singleSpot";
 
 
 const CreateOrEditSpotForm = ({ type, spot }) => {
@@ -34,9 +35,9 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
   }
 
   const checkPrice = (price) => {
-    if (price < 0) {
-      setPrice(0)
-      return 0;
+    if (price < 1) {
+      setPrice(1)
+      return 1;
     }
     return price;
   }
@@ -149,13 +150,12 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
 
     if (!+price || +price < 1) errors.price = "Price is required";
 
-    console.log(errors);
-
     if (!Object.keys(errors).length) {
       if (type !== 'edit') {
         try {
           const res = await dispatch(createSpot(spotDetails));
           await dispatch(addImages(res.id, spotImgs));
+          await dispatch(getOneSpot(res.id))
           history.push(`/spots/${res.id}`);
         } catch (e) {
           setErrors(e)
@@ -166,6 +166,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
           spotDetails.ownerId = spot.ownerId
         }
         await dispatch(editSpot(spotDetails, spot.id, spotImgs));
+        await dispatch(getOneSpot(spot.id))
         history.push(`/spots/${spot.id}`);
         // } catch (e) {
         //   setErrors(e)
@@ -354,7 +355,6 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
             type="number"
             placeholder="Price per night (USD)"
             step='0.01'
-            min="1"
             value={checkPrice(price)}
             onChange={(e) => setPrice(e.target.value)}
           />

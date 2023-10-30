@@ -55,7 +55,7 @@ const ReviewArea = ({ spot, setRevAvg, revAvg, numRevs }) => {
           <i className="fa-solid fa-star">
             <span>{revAvg.toFixed(1)}</span></i>
         </span>
-        <span><i className="fa-solid fa-clover fa-2xs separator" /><span id="num-reviews">{numReviews} {numReviews > 1 ? 'Reviews' : "Review"}</span></span>
+        <span><i className="fa-solid fa-clover fa-2xs separator" /><span id="num-reviews">{numReviews} {numReviews > 1  ? 'Reviews' : "Review"}</span></span>
       </div>
       <div className="post-button">
         {(user && user.id !== spot.ownerId && !userReviewed) &&

@@ -51,6 +51,7 @@
 }
 
 #spot-info-upper {
+  width: 225px;
   display: flex;
   justify-content: space-between;
 }
@@ -68,6 +69,10 @@
 
   .spot-image {
     height: 35vw;
+    width: 35vw;
+  }
+
+  #spot-info-upper {
     width: 35vw;
   }
 }
@@ -88,5 +93,5 @@
   .spot-index {
     grid-template-columns: repeat(5, auto);
   }
-  
+
 }

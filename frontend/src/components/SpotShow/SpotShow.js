@@ -22,8 +22,6 @@ const SpotShow = () => {
   const [numReviews, setNumReviews] = useState(0)
   const spot = useSelector(state => state.singleSpot);
 
-  console.log('I mean...', spot);
-
   let imgNum = 0
 
   useEffect(() => {
@@ -34,9 +32,9 @@ const SpotShow = () => {
     if (spot && spot.SpotImages && spot.SpotImages.length > 0) {
       setPreviewImage({ ...(spot.SpotImages.find((image) => image.preview === true)) });
     }
+
   }, [spot]);
 
-  console.log('before render', isLoaded);
 
   // if (!isLoaded && rerendered && !spot) {
   //   history.replace("/not-found")

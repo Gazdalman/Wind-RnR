@@ -2,6 +2,7 @@ const CallOutBox = ({spot, avgRating, numReviews }) => {
   const onClick = () => {
     window.alert("Feature Coming Soon!")
   }
+
   return (
     <div id="call-out-box">
         <div id="COB-top">
@@ -10,7 +11,7 @@ const CallOutBox = ({spot, avgRating, numReviews }) => {
             < i
               className="fa-solid fa-star"
               style={{ color: "#f55757" }} />
-            {avgRating !== "NaN" ? avgRating : "NEW"}
+            {numReviews < 1 ? "NEW" : avgRating }
             {numReviews > 0 &&
               (
                 <>
