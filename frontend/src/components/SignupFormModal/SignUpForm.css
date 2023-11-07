@@ -1,0 +1,37 @@
+#signup-div {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#signup-div > span > .modal {
+  width: fit-content;
+  display: inline-block;
+  list-style-type: none;
+  border: none;
+}
+
+#sign-up-button {
+  width: 131px;
+  height: 28px;
+  background-color: rgb(245, 87, 87);
+  color: white;
+  padding: 5px 5px;
+  border: none;
+  border-radius: 15px;
+  margin: auto;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+#sign-up-button:hover {
+  cursor: pointer;
+  background-color: rgb(149, 37, 37);
+}
+
+#sign-up-button:disabled {
+  cursor: unset;
+  background-color: white;
+  color: grey;
+}
