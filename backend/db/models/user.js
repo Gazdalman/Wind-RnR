@@ -20,11 +20,20 @@ module.exports = (sequelize, DataTypes) => {
         }
       );
 
+      User.belongsToMany(
+        models.Spot, {
+          through: models.Like,
+          as: 'likedSpots',
+          foreignKey: 'userId',
+          otherKey: 'spotId'
+        }
+      );
+
       User.hasMany(
         models.Booking, {
           foreignKey: 'userId'
         }
-      )
+      );
     }
   };
 

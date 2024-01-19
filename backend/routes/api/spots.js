@@ -35,7 +35,7 @@ router.get('/', queryCheck, paginationCheck, async (req, res) => {
       }
     })
 
-    const avg = total ?  (sum / total).toFixed(1) : 0;
+    const avg = total ? (sum / total).toFixed(1) : 0;
     spot.avgRating = avg
 
     const previewImg = await SpotImage.findOne({
@@ -140,13 +140,14 @@ router.get('/:spotId/reviews', spotExists, async (req, res) => {
   }
 
   res.json({
-    Reviews: allReviews})
+    Reviews: allReviews
+  })
 });
 
 // Get all bookings for a spot
-router.get('/:spotId/bookings', commonErrs, async(req,res) => {
+router.get('/:spotId/bookings', commonErrs, async (req, res) => {
   const { user } = req;
-  const {spotId} = req.params;
+  const { spotId } = req.params;
 
   const spot = await Spot.findByPk(spotId);
   let bookings;
@@ -245,6 +246,31 @@ router.post('/:spotId/reviews', commonErrs, doesNotOwn, alreadyReviewed, validat
   res.json(newReview)
 });
 
+router.post('/:spotId/like', commonErrs, doesNotOwn, async (req, res) => {
+  const { user } = req;
+  const { spotId } = req.params;
+
+  const userObj = await User.findByPk(user.id);
+  const spot = await Spot.findByPk(spotId);
+  const like = await userObj.getLikedSpots({
+    where: {
+      id: spotId
+    }
+  });
+
+  if (like.length) {
+    await userObj.removeLikedSpot(spot);
+    return res.json({
+      message: "Spot successfully removed from liked"
+    })
+  }
+  await userObj.addLikedSpot(spot);
+
+  res.json({
+    message: "Spot successfully liked"
+  })
+});
+
 // Add an image to an owned spot based on id
 router.post('/:spotId/images', commonErrs, userOwns, validators.validateSpotImage, async (req, res) => {
   const { spotId } = req.params;
@@ -316,9 +342,9 @@ router.put('/:spotId', commonErrs, userOwns, validators.validateSpot, async (req
 });
 
 //Edit a spots images
-router.put('/:spotId/images', commonErrs, userOwns, async(req,res) => {
-  const {spotId} = req.params
-  const {images} = req.body
+router.put('/:spotId/images', commonErrs, userOwns, async (req, res) => {
+  const { spotId } = req.params
+  const { images } = req.body
   const spot = await Spot.findByPk(spotId)
   const spotImages = await SpotImage.findAll({
     where: {

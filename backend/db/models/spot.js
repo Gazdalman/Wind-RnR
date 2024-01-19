@@ -18,6 +18,15 @@ module.exports = (sequelize, DataTypes) => {
       }
       );
 
+      Spot.belongsToMany(
+        models.User, {
+        through: models.Like,
+        as: 'likers',
+        foreignKey: 'spotId',
+        otherKey: 'userId'
+      }
+      );
+
       Spot.hasMany(
         models.SpotImage, {
         foreignKey: 'spotId'
