@@ -246,30 +246,30 @@ router.post('/:spotId/reviews', commonErrs, doesNotOwn, alreadyReviewed, validat
   res.json(newReview)
 });
 
-router.post('/:spotId/like', commonErrs, doesNotOwn, async (req, res) => {
-  const { user } = req;
-  const { spotId } = req.params;
+// router.post('/:spotId/like', commonErrs, doesNotOwn, async (req, res) => {
+//   const { user } = req;
+//   const { spotId } = req.params;
 
-  const userObj = await User.findByPk(user.id);
-  const spot = await Spot.findByPk(spotId);
-  const like = await userObj.getLikedSpots({
-    where: {
-      id: spotId
-    }
-  });
+//   const userObj = await User.findByPk(user.id);
+//   const spot = await Spot.findByPk(spotId);
+//   const like = await userObj.getLikedSpots({
+//     where: {
+//       id: spotId
+//     }
+//   });
 
-  if (like.length) {
-    await userObj.removeLikedSpot(spot);
-    return res.json({
-      message: "Spot successfully removed from liked"
-    })
-  }
-  await userObj.addLikedSpot(spot);
+//   if (like.length) {
+//     await userObj.removeLikedSpot(spot);
+//     return res.json({
+//       message: "Spot successfully removed from liked"
+//     })
+//   }
+//   await userObj.addLikedSpot(spot);
 
-  res.json({
-    message: "Spot successfully liked"
-  })
-});
+//   res.json({
+//     message: "Spot successfully liked"
+//   })
+// });
 
 // Add an image to an owned spot based on id
 router.post('/:spotId/images', commonErrs, userOwns, validators.validateSpotImage, async (req, res) => {
