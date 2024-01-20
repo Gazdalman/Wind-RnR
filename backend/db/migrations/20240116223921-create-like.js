@@ -2,6 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 
 let options = {};
+
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
@@ -21,7 +22,8 @@ module.exports = {
         references: {
           model: "Users",
           key: "id"
-        }
+        },
+        onDelete: 'CASCADE'
       },
       spotId: {
         type: Sequelize.INTEGER,
@@ -29,7 +31,8 @@ module.exports = {
         references: {
           model: "Spots",
           key: "id"
-        }
+        },
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
