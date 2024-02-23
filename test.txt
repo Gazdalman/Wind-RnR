@@ -1,5 +1,0 @@
-DATABASE_URL : postgres://aa_projects_2_bc7d_user:LhwJ4tc6tC1bDyJ79PI7MTXXsWWe1WCp@dpg-clf1obmf27hc73bhpqlg-a/aa_projects_2_bc7d
-JWT_EXPIRES_IN : 604800
-JWT_SECRET : 52210a99502d0a617f0b810bc0b138dc
-NODE_ENV : production
-SCHEMA : wind-rnr

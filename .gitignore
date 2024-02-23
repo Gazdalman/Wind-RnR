@@ -5,3 +5,5 @@ build
 *.db
 test-place.js
 package-lock.json
+.tret.js
+
