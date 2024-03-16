@@ -16,4 +16,6 @@ router.delete('/:imageId', requireAuth, imageExists, userImage, async(req,res) =
   });
 })
 
+
+
 module.exports = router

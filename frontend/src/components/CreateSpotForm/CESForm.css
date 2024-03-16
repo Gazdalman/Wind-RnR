@@ -1,4 +1,4 @@
-.create-form-div {
+ .create-form-div {
   width: 450px;
   margin: auto;
 }
@@ -8,17 +8,17 @@
   margin-bottom: 5px;
 }
 
-.create-a-spot-form *:not(button) {
+/* .create-a-spot-form *:not(button) {
   width: 100%;
-}
+} */
 
 #city-state>* {
   display: inline-block;
 }
 
-.create-a-spot-form input {
+/* .create-a-spot-form input {
   margin: 0px 0px 10px 0px;
-}
+} */
 
 #city {
   width: 69%;
@@ -28,7 +28,7 @@
 #state {
   width: 25%
 }
-
+/*
 #lat-lng,
 #price-span,
 #name,
@@ -77,4 +77,4 @@
 
 #spot-submit-button:hover {
   background-color: rgb(149, 37, 37);
-}
+} */

@@ -26,6 +26,16 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
   const [url3, setUrl3] = useState(type === "edit" && spot && spot.SpotImages[3] ? spot.SpotImages[3].url : "");
   const [url4, setUrl4] = useState(type === "edit" && spot && spot.SpotImages[4] ? spot.SpotImages[4].url : "");
   const [errors, setErrors] = useState({});
+  const [focused, setFocused] = useState("");
+
+  const handleFocus = (field, e) => {
+    e.preventDefault()
+    setFocused(field);
+  };
+
+  const handleBlur = () => {
+    setFocused("false");
+  };
 
   const notEmpty = (url) => {
     if (url === "https://www.ewingoutdoorsupply.com/media/catalog/product/placeholder/default/shutterstock_161251868.png") {
@@ -100,7 +110,7 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
 
 
     const spotDetails = {
-      ownerId: user.username === "TheManager" && type=== "edit" ? spot.ownerId : user.id,
+      ownerId: user.username === "TheManager" && type === "edit" ? spot.ownerId : user.id,
       address,
       country,
       city,
@@ -326,16 +336,20 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
             **Name is required**
           </p>
         )}
-        <span id="name">
+        <div className={`lm-cred-field floating-input ${focused == "name" ? 'focused' : ''}`}>
+          <label className={`lcf-label input-label ${focused == "name" || name ? 'label-focus' : ''}`}>
+            Name
+          </label>
           <input
             type="text"
-            placeholder="Create a title for your spot"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            onFocus={e => handleFocus("name", e)}
+            onBlur={handleBlur}
+            className="lcf-input input-field"
+            required
           />
-        </span>
-
-
+        </div>
         <h3>
           Set a base price for your spot
         </h3>

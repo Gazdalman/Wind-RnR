@@ -1,3 +1,6 @@
+import BookingForm from "../BookingForm/BookingForm";
+import OpenModalButton from "../OpenModalButton";
+
 const CallOutBox = ({spot, avgRating, numReviews }) => {
   const onClick = () => {
     window.alert("Feature Coming Soon!")
@@ -22,9 +25,11 @@ const CallOutBox = ({spot, avgRating, numReviews }) => {
             }
           </span>
         </div>
-        <button
-        onClick={onClick}
-        id="reserve-button">Reserve</button>
+        <OpenModalButton
+        modalComponent={<BookingForm spotId={spot.id}/>}
+        modalClasses={["reserve-button"]}
+        buttonText={"Reserve Spot"}
+        />
       </div>
   )
 }
