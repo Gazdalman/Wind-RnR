@@ -336,20 +336,14 @@ const CreateOrEditSpotForm = ({ type, spot }) => {
             **Name is required**
           </p>
         )}
-        <div className={`lm-cred-field floating-input ${focused == "name" ? 'focused' : ''}`}>
-          <label className={`lcf-label input-label ${focused == "name" || name ? 'label-focus' : ''}`}>
-            Name
-          </label>
+        <span id="name">
           <input
             type="text"
+            placeholder="Create a title for your spot"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            onFocus={e => handleFocus("name", e)}
-            onBlur={handleBlur}
-            className="lcf-input input-field"
-            required
           />
-        </div>
+        </span>
         <h3>
           Set a base price for your spot
         </h3>
